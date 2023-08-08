@@ -1,0 +1,2 @@
+### 根据id查询会员
+GET http://localhost:8080/shop/member/1

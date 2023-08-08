@@ -1,0 +1,9 @@
+### feign远程服务调用,根据id查询
+GET http://localhost:8081/shop/member/1
+
+###
+GET http://localhost:8081/shop/member/findAll
+
+
+###
+GET http://localhost:8081/shop/member/findByUsername?username=li
