@@ -17,7 +17,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member findById(Long id) {
-        return memberMapper.selectByPrimaryKey(1L);
+        return memberMapper.selectByPrimaryKey(id);
     }
 
     @Override

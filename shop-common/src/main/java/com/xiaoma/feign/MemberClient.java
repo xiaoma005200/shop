@@ -4,6 +4,7 @@ import com.xiaoma.pojo.Member;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface MemberClient {
     @GetMapping("/shop/member/findAll")
     List<Member> findAll();
 
-    @GetMapping("/shop/member/findByUsername")
-    List<Member> findByUsername(String username);
+    @GetMapping("/shop/member/findByName")
+    List<Member> findByUsername(@RequestParam("username") String username);
 
 }

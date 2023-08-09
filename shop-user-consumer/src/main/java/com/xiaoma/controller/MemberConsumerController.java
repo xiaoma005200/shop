@@ -2,12 +2,8 @@ package com.xiaoma.controller;
 
 import com.xiaoma.feign.MemberClient;
 import com.xiaoma.pojo.Member;
-import com.xiaoma.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,8 +24,8 @@ public class MemberConsumerController {
         return memberClient.findAll();
     }
 
-    @GetMapping("/findByUsername")
-    public List<Member> findByUsername(String username){
+    @GetMapping("/findByName")
+    public List<Member> findByName(String username){
         return memberClient.findByUsername(username);
     }
 

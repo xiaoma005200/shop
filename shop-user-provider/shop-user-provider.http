@@ -1,2 +1,8 @@
 ### 根据id查询会员
 GET http://localhost:8080/shop/member/1
+
+### 查询所有会员
+GET http://localhost:8080/shop/member/findAll
+
+### 根据名字模糊查询会员
+GET http://localhost:8080/shop/member/findByName?username=li
