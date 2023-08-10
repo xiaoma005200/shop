@@ -4,6 +4,9 @@ import com.xiaoma.pojo.Member;
 
 import java.util.List;
 
+/**
+ * 会员查询接口
+ */
 public interface MemberService {
 
     /**
