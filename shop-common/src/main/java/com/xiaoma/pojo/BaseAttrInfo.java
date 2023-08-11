@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
     * 属性表
     */
@@ -27,4 +29,9 @@ public class BaseAttrInfo {
     * 启用：1 停用：0
     */
     private String isEnabled;
+
+    /**
+     * 新建一个集合接收属性属性值列表
+     */
+    private List<BaseAttrValue> attrValueList;
 }

@@ -18,3 +18,19 @@ eureka:
     service-url:
       defaultZone: http://175.178.228.52:8000/eureka # 注册中心地址
 
+# hystrix的超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 50000
+
+ # ribbon的超时时间
+ribbon:
+  ReadTimeout: 500000
+  ConnectTimeout: 500000
+

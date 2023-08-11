@@ -32,7 +32,7 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <version>2.2.5.RELEASE</version>
         </dependency>
-        <!---->
+        <!--全局跨域配置中使用-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>

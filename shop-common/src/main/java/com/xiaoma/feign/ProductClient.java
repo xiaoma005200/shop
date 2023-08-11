@@ -7,6 +7,7 @@ import com.xiaoma.pojo.BaseCatalog3;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -25,4 +26,7 @@ public interface ProductClient {
 
     @GetMapping("/attrInfoList")
     List<BaseAttrInfo> getAttrByCatalog3Id(@RequestParam("catalog3Id") Integer catalog3Id);
+
+    @PostMapping("/saveAttrInfo")
+    String saveAttrInfo(@RequestBody BaseAttrInfo baseAttrInfo);
 }

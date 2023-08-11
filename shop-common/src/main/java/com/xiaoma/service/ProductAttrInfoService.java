@@ -15,4 +15,10 @@ public interface ProductAttrInfoService {
      * @return 该三级分类id下的所有属性
      */
     List<BaseAttrInfo> getAttrByCatalog3Id(Integer catalog3Id);
+
+    /**
+     * 接收页面的属性和属性值信息
+     * @param baseAttrInfo 接收页面的属性和属性值信息
+     */
+    void saveAttrInfo(BaseAttrInfo baseAttrInfo);
 }
