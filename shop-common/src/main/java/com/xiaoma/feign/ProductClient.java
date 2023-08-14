@@ -15,18 +15,18 @@ import java.util.List;
 @FeignClient("shop-product-provider")
 public interface ProductClient {
 
-    @PostMapping("/getCatalog1")
+    @PostMapping("/shop/product/getCatalog1")
     List<BaseCatalog1> getCatalog1();
 
-    @PostMapping("/getCatalog2")
+    @PostMapping("/shop/product/getCatalog2")
     List<BaseCatalog2> getCatalog2(@RequestParam("catalog1Id") Integer catalog1Id);
 
-    @PostMapping("/getCatalog3")
+    @PostMapping("/shop/product/getCatalog3")
     List<BaseCatalog3> getCatalog3(@RequestParam("catalog2Id") Integer catalog2Id);
 
-    @GetMapping("/attrInfoList")
+    @GetMapping("/shop/product/attrInfoList")
     List<BaseAttrInfo> getAttrByCatalog3Id(@RequestParam("catalog3Id") Integer catalog3Id);
 
-    @PostMapping("/saveAttrInfo")
+    @PostMapping("/shop/product/saveAttrInfo")
     String saveAttrInfo(@RequestBody BaseAttrInfo baseAttrInfo);
 }
