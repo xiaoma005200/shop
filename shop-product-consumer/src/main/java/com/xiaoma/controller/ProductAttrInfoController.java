@@ -2,6 +2,7 @@ package com.xiaoma.controller;
 
 import com.xiaoma.feign.ProductClient;
 import com.xiaoma.pojo.BaseAttrInfo;
+import com.xiaoma.pojo.BaseAttrValue;
 import com.xiaoma.service.ProductAttrInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,5 +25,10 @@ public class ProductAttrInfoController {
     public String saveAttrInfo(@RequestBody BaseAttrInfo baseAttrInfo){
         productClient.saveAttrInfo(baseAttrInfo);
         return "success";
+    }
+
+    @PostMapping("/getAttrValueList")
+    public List<BaseAttrValue> getAttrValueList(Integer attrId){
+        return productClient.getAttrValueList(attrId);
     }
 }

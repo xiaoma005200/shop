@@ -1,6 +1,7 @@
 package com.xiaoma.service;
 
 import com.xiaoma.pojo.BaseAttrInfo;
+import com.xiaoma.pojo.BaseAttrValue;
 
 import java.util.List;
 
@@ -21,4 +22,11 @@ public interface ProductAttrInfoService {
      * @param baseAttrInfo 接收页面的属性和属性值信息
      */
     void saveAttrInfo(BaseAttrInfo baseAttrInfo);
+
+    /**
+     * 根据属性id查询所有的属性值
+     * @param attrId 属性id
+     * @return 属性值列表
+     */
+    List<BaseAttrValue> getAttrValueByAttrId(Integer attrId);
 }

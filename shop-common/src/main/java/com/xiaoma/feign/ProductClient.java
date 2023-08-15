@@ -1,9 +1,6 @@
 package com.xiaoma.feign;
 
-import com.xiaoma.pojo.BaseAttrInfo;
-import com.xiaoma.pojo.BaseCatalog1;
-import com.xiaoma.pojo.BaseCatalog2;
-import com.xiaoma.pojo.BaseCatalog3;
+import com.xiaoma.pojo.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,4 +26,7 @@ public interface ProductClient {
 
     @PostMapping("/shop/product/saveAttrInfo")
     String saveAttrInfo(@RequestBody BaseAttrInfo baseAttrInfo);
+
+    @PostMapping("/shop/product/getAttrValueList")
+    List<BaseAttrValue> getAttrValueList(@RequestParam("attrId") Integer attrId);
 }
