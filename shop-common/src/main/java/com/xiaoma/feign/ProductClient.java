@@ -29,4 +29,10 @@ public interface ProductClient {
 
     @PostMapping("/shop/product/getAttrValueList")
     List<BaseAttrValue> getAttrValueList(@RequestParam("attrId") Integer attrId);
+
+    @GetMapping("/shop/product/spuList")
+    List<ProductInfo> findAll(@RequestParam("catalog3Id") Integer catalog3Id);
+
+    @PostMapping("/shop/product/baseSaleAttrList")
+    List<BaseSaleAttr> findAllSaleAttr();
 }

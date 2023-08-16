@@ -1,5 +1,6 @@
 package com.xiaoma.pojo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class ProductInfo {
     /**
     * 商品名称
     */
+    @JsonProperty("spuName")
     private String productName;
 
     /**

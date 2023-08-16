@@ -6,7 +6,7 @@ import com.xiaoma.pojo.BaseAttrValue;
 import java.util.List;
 
 /**
- * 查询商品属性
+ * 商品属性接口
  */
 public interface ProductAttrInfoService {
 

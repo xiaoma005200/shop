@@ -38,6 +38,12 @@
             <artifactId>spring-webmvc</artifactId>
             <version>5.2.8.RELEASE</version>
         </dependency>
+        <!--数据绑定功能-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.11.2</version>
+        </dependency>
     </dependencies>
 
 </project>
