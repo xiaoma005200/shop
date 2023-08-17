@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,4 +36,23 @@ public class ProductInfo {
     * 品牌id
     */
     private Long tmId;
+
+    /**
+     * 存储图片信息(新增)
+     */
+    @JsonProperty("spuImageList")
+    List<ProductImage> productImageList;
+
+    /**
+     存储SPU对应的销售属性(新增)
+     */
+    @JsonProperty("spuSaleAttrList")
+    List<ProductSaleAttr> productSaleAttrList;
+
+    /**
+     * 品牌(新增)
+     */
+    private Brand brand;
+
+    private static final long serialVersionUID = 1L;
 }

@@ -1,13 +1,12 @@
 package com.xiaoma.controller;
 
+import com.xiaoma.pojo.ProductImage;
 import com.xiaoma.pojo.ProductInfo;
+import com.xiaoma.pojo.ProductSaleAttr;
 import com.xiaoma.service.SPUService;
 import com.xiaoma.util.FastDFSUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -36,4 +35,20 @@ public class SPUController {
     public String fileUpload(MultipartFile file) {
         return fastDFSUtils.uploadFile(file);
     }
+
+    @GetMapping("/productImageList")
+    public List<ProductImage> productImageList(Integer spuId) {
+        return spuService.findImagesByPid(spuId);
+    }
+
+    @GetMapping("/productSaleAttrList")
+    public List<ProductSaleAttr> productSaleAttrList(Integer spuId) {
+        return spuService.findSaleAttrByPid(spuId);
+    }
+
+    @PostMapping("/saveSpuInfo")
+    public void saveSpuInfo(@RequestBody ProductInfo productInfo) {
+        spuService.saveSpuInfo(productInfo);
+    }
+
 }
