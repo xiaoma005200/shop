@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @FeignClient("shop-product-provider")
-public interface ProductClient {
+public interface ProductClient extends SPUClient {
 
     @PostMapping("/shop/product/getCatalog1")
     List<BaseCatalog1> getCatalog1();
@@ -30,9 +30,7 @@ public interface ProductClient {
     @PostMapping("/shop/product/getAttrValueList")
     List<BaseAttrValue> getAttrValueList(@RequestParam("attrId") Integer attrId);
 
-    @GetMapping("/shop/product/spuList")
-    List<ProductInfo> findAll(@RequestParam("catalog3Id") Integer catalog3Id);
 
-    @PostMapping("/shop/product/baseSaleAttrList")
-    List<BaseSaleAttr> findAllSaleAttr();
+
+
 }

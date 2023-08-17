@@ -1,6 +1,7 @@
 package com.xiaoma.controller;
 
 import com.xiaoma.feign.ProductClient;
+import com.xiaoma.feign.SPUClient;
 import com.xiaoma.pojo.BaseSaleAttr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
