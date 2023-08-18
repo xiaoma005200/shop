@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 
+/**
+ * FastDFS实现文件上传配置类
+ */
 @Configuration
 public class FastDFSConfig {
 
