@@ -5,12 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductInfo {
+public class ProductInfo implements Serializable {
     /**
     * 商品id
     */
@@ -38,13 +39,13 @@ public class ProductInfo {
     private Long tmId;
 
     /**
-     * 存储图片信息(新增)
+     * 接收页面提交的图片(新增)
      */
     @JsonProperty("spuImageList")
     List<ProductImage> productImageList;
 
     /**
-     存储SPU对应的销售属性(新增)
+     * 存储SPU对应的销售属性(新增)
      */
     @JsonProperty("spuSaleAttrList")
     List<ProductSaleAttr> productSaleAttrList;

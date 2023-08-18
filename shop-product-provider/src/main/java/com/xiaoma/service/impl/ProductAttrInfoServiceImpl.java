@@ -1,13 +1,12 @@
 package com.xiaoma.service.impl;
 
-import com.xiaoma.mapper.BaseAttrInfoMapper;
-import com.xiaoma.mapper.BaseAttrValueMapper;
+import com.xiaoma.mapper.generate.BaseAttrInfoMapper;
+import com.xiaoma.mapper.generate.BaseAttrValueMapper;
 import com.xiaoma.pojo.BaseAttrInfo;
 import com.xiaoma.pojo.BaseAttrInfoExample;
 import com.xiaoma.pojo.BaseAttrValue;
 import com.xiaoma.pojo.BaseAttrValueExample;
 import com.xiaoma.service.ProductAttrInfoService;
-import com.xiaoma.service.ProductCategoryService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

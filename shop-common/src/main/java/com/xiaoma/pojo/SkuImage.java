@@ -1,8 +1,11 @@
 package com.xiaoma.pojo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
     * 库存单元图片表
@@ -10,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SkuImage {
+public class SkuImage implements Serializable {
     /**
     * 编号
     */
@@ -34,10 +37,13 @@ public class SkuImage {
     /**
     * 商品图片id
     */
+    @JsonProperty("spuImgId")
     private Long productImgId;
 
     /**
     * 是否默认
     */
     private String isDefault;
+
+    private static final long serialVersionUID = 1L;
 }

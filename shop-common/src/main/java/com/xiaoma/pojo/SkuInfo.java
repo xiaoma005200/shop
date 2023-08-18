@@ -4,13 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
     * 库存单元表
     */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SkuInfo {
+public class SkuInfo implements Serializable {
     /**
     * 库存id(itemID)
     */
@@ -52,4 +55,21 @@ public class SkuInfo {
     * 默认显示图片(冗余)
     */
     private String skuDefaultImg;
+
+    /**
+     * sku属性值
+     */
+    private List<SkuAttrValue> skuAttrValueList;
+
+    /**
+     * sku销售属性值
+     */
+    private List<SkuSaleAttrValue> skuSaleAttrValueList;
+
+    /**
+     * 商品sku图片
+     */
+    private List<SkuImage> skuImageList;
+
+    private static final long serialVersionUID = 1L;
 }

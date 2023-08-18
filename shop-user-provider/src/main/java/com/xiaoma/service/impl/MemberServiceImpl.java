@@ -1,6 +1,6 @@
 package com.xiaoma.service.impl;
 
-import com.xiaoma.mapper.MemberMapper;
+import com.xiaoma.mapper.generate.MemberMapper;
 import com.xiaoma.pojo.Member;
 import com.xiaoma.pojo.MemberExample;
 import com.xiaoma.service.MemberService;

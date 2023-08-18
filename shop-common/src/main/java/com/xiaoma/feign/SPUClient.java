@@ -4,7 +4,6 @@ import com.xiaoma.pojo.BaseSaleAttr;
 import com.xiaoma.pojo.ProductImage;
 import com.xiaoma.pojo.ProductInfo;
 import com.xiaoma.pojo.ProductSaleAttr;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,13 +28,19 @@ public interface SPUClient {
     @PostMapping(value = "/shop/product/fileUpload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     String fileUpload(@RequestPart("file") MultipartFile file);
 
-    @GetMapping("/shop/product/productImageList")
-    List<ProductImage> productImageList(@RequestParam("spuId") Integer spuId);
-
-    @GetMapping("/shop/product/productSaleAttrList")
-    List<ProductSaleAttr> productSaleAttrList(@RequestParam("spuId") Integer spuId);
-
     @PostMapping("/shop/product/saveSpuInfo")
     void saveSpuInfo(@RequestBody ProductInfo productInfo);
+
+    @GetMapping("/shop/product/spuImageList")
+    List<ProductImage> spuImageList(@RequestParam("spuId") Integer spuId);
+
+    @GetMapping("/shop/product/spuSaleAttrList")
+    List<ProductSaleAttr> spuSaleAttrList(@RequestParam("spuId") Integer spuId);
+
+    @GetMapping("/shop/product/productSaleAttrsAndCheck")
+    List<ProductSaleAttr> productSaleAttrsAndCheck(@RequestParam("spuId") Integer spuId, @RequestParam("skuId") Integer skuId);
+
+    @GetMapping("/shop/product/findSPUBySkuId")
+    ProductInfo findSPUBySkuId(@RequestParam("skuId") Long skuId);
 
 }

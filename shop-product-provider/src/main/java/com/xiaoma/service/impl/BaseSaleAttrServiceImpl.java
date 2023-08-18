@@ -1,6 +1,6 @@
 package com.xiaoma.service.impl;
 
-import com.xiaoma.mapper.BaseSaleAttrMapper;
+import com.xiaoma.mapper.generate.BaseSaleAttrMapper;
 import com.xiaoma.pojo.BaseSaleAttr;
 import com.xiaoma.pojo.BaseSaleAttrExample;
 import com.xiaoma.service.BaseSaleAttrService;

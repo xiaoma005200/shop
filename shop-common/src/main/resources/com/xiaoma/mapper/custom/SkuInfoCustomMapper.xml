@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoma.mapper.custom.SkuInfoCustomMapper">
+
+    <resultMap id="selectSkuSaleAttrValuesBySpuIdMap" type="SkuInfo" extends="com.xiaoma.mapper.generate.SkuInfoMapper.BaseResultMap">
+       <id column="si_id" property="id"/>
+      <!--private List<SkuSaleAttrValue> skuSaleAttrValueList;-->
+<!--       <collection property="skuSaleAttrValueList" ofType="SkuSaleAttrValue">-->
+           <collection property="skuSaleAttrValueList" resultMap="SkuSaleAttrValue">
+             <id column="ssav_id" property="id"/>
+             <result column="sale_attr_value_id" property="saleAttrValueId"/>
+       </collection>
+
+    </resultMap>
+    <select id="selectSkuSaleAttrValuesBySpuId" resultMap="selectSkuSaleAttrValuesBySpuIdMap">
+        SELECT si.id si_id, ssav.id ssav_id, ssav.sku_id, ssav.sale_attr_value_id
+        FROM sku_info si,
+             sku_sale_attr_value ssav
+        WHERE si.id = ssav.sku_id
+          and si.product_id = #{spuId}
+    </select>
+
+    <select id="selectBySaleAttrValueIds" resultType="java.lang.String">
+      SELECT sku_id FROM (
+        SELECT sku_id,
+               GROUP_CONCAT(sale_attr_value_id ORDER BY sale_attr_value_id SEPARATOR '#') saleValueIds
+        from sku_sale_attr_value
+        group by sku_id
+        HAVING saleValueIds =#{saleAttrValueIds}
+      ) sku_saleValue
+    </select>
+</mapper>

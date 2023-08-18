@@ -36,19 +36,29 @@ public class SPUController {
         return fastDFSUtils.uploadFile(file);
     }
 
-    @GetMapping("/productImageList")
-    public List<ProductImage> productImageList(Integer spuId) {
-        return spuService.findImagesByPid(spuId);
-    }
-
-    @GetMapping("/productSaleAttrList")
-    public List<ProductSaleAttr> productSaleAttrList(Integer spuId) {
-        return spuService.findSaleAttrByPid(spuId);
-    }
-
     @PostMapping("/saveSpuInfo")
     public void saveSpuInfo(@RequestBody ProductInfo productInfo) {
         spuService.saveSpuInfo(productInfo);
+    }
+
+    @GetMapping("/spuImageList")
+    public List<ProductImage> spuImageList(Integer spuId) {
+        return spuService.findImagesByPid(spuId);
+    }
+
+    @GetMapping("/spuSaleAttrList")
+    public List<ProductSaleAttr> spuSaleAttrList(Integer spuId) {
+        return spuService.findSaleAttrByPid(spuId);
+    }
+
+    @GetMapping("/productSaleAttrsAndCheck")
+    public List<ProductSaleAttr> productSaleAttrsAndCheck(Integer spuId,Integer skuId) {
+        return spuService.findSPUSaleAttrAndCheck(spuId, skuId);
+    }
+
+    @GetMapping("/findSPUBySkuId")
+    public ProductInfo findSPUBySkuId(Long skuId) {
+        return spuService.findSPUBySkuId(skuId);
     }
 
 }

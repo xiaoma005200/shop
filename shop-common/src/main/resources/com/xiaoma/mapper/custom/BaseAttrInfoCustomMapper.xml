@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoma.mapper.custom.BaseAttrInfoCustomMapper">
+    <select id="selectBaseAttrByValueIds" resultMap="selectBaseAttrByValueIdsMap">
+        select bai.id as bai_id,
+               bai.attr_name,
+               bav.id as bav_id,
+               bav.value_name
+        from base_attr_info bai,
+             base_attr_value bav
+                where bai.id = bav.attr_id
+        <if test="valueIds != null and valueIds.size() != 0">
+            and bav.id in
+            <foreach collection="valueIds" item="valueId" open="(" close=")" separator=",">
+                #{valueId}
+            </foreach>
+        </if>
+    </select>
+
+    <resultMap id="selectBaseAttrByValueIdsMap" type="BaseAttrInfo">
+        <id column="bai_id" jdbcType="BIGINT" property="id"/>
+        <result column="attr_name" jdbcType="VARCHAR" property="attrName"/>
+        <collection property="attrValueList" ofType="com.xiaoma.pojo.BaseAttrValue">
+            <id column="bav_id" jdbcType="BIGINT" property="id"/>
+            <result column="value_name" jdbcType="VARCHAR" property="valueName"/>
+        </collection>
+    </resultMap>
+</mapper>

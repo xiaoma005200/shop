@@ -28,18 +28,29 @@ public class SPUController {
         return productClient.fileUpload(file);
     }
 
-    @GetMapping("/productImageList")
-    public List<ProductImage> productImageList(Integer spuId) {
-        return productClient.productImageList(spuId);
-    }
-
-    @GetMapping("/productSaleAttrList")
-    public List<ProductSaleAttr> productSaleAttrList(Integer spuId) {
-        return productClient.productSaleAttrList(spuId);
-    }
-
     @PostMapping("/saveSpuInfo")
     public void saveSpuInfo(@RequestBody ProductInfo productInfo) {
         productClient.saveSpuInfo(productInfo);
     }
+
+    @GetMapping("/spuImageList")
+    public List<ProductImage> spuImageList(Integer spuId) {
+        return productClient.spuImageList(spuId);
+    }
+
+    @GetMapping("/spuSaleAttrList")
+    public List<ProductSaleAttr> spuSaleAttrList(Integer spuId) {
+        return productClient.spuSaleAttrList(spuId);
+    }
+
+    @GetMapping("/productSaleAttrsAndCheck")
+    public List<ProductSaleAttr> productSaleAttrsAndCheck(Integer spuId,Integer skuId) {
+        return productClient.productSaleAttrsAndCheck(spuId,skuId);
+    }
+
+    @GetMapping("/findSPUBySkuId")
+    public ProductInfo findSPUBySkuId(Long skuId) {
+        return productClient.findSPUBySkuId(skuId);
+    }
+
 }

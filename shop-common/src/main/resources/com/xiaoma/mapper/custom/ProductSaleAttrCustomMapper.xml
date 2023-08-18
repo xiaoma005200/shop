@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoma.mapper.custom.ProductSaleAttrCustomMapper">
+
+    <resultMap id="selectSPUSaleAttrAndCheckMap" type="ProductSaleAttr"
+               extends="com.xiaoma.mapper.generate.ProductSaleAttrMapper.BaseResultMap">
+      <result column="psa_id" property="id"/>
+
+       <!--一个销售对应多个销售属性值配置-->
+      <collection property="productSaleAttrValueList" ofType="ProductSaleAttrValue">
+          <id column="psav_id" jdbcType="BIGINT" property="id" />
+          <result column="product_id" jdbcType="BIGINT" property="productId" />
+          <result column="sale_attr_id" jdbcType="BIGINT" property="saleAttrId" />
+          <result column="sale_attr_value_name" jdbcType="VARCHAR" property="saleAttrValueName" />
+          <result column="isChecked" property="isChecked"/>
+      </collection>
+    </resultMap>
+
+
+    <select id="selectSPUSaleAttrAndCheck" resultMap="selectSPUSaleAttrAndCheckMap">
+        SELECT psa.id as psa_id,
+               psa.*,
+               psav.id as psav_id,
+               psav.*,
+               if(ssav.sku_id,1,0) as isChecked
+        FROM product_sale_attr psa
+                     INNER JOIN product_sale_attr_value psav
+                ON psa.sale_attr_id = psav.sale_attr_id AND psa.product_id = psav.product_id AND psa.product_id = #{spuId}
+                     LEFT OUTER JOIN sku_sale_attr_value ssav ON ssav.sale_attr_id=psa.sale_attr_id AND ssav.sale_attr_value_id=psav.id
+                AND ssav.sku_id=#{skuId}
+        ORDER BY psav_id;
+
+    </select>
+</mapper>

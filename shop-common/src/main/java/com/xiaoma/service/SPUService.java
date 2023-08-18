@@ -19,23 +19,39 @@ public interface SPUService {
     List<ProductInfo> findAll(Integer catalog3Id);
 
     /**
-     * 查询SPU(待上传)下的所有图片
+     * 保存SPU相关信息
+     * @param productInfo
+     */
+    void saveSpuInfo(ProductInfo productInfo);
+
+    /**
+     * 查询SPU下的所有图片
      * @param spuId SPU(product_Info)的id
      * @return 当前SPU下的所有图片
      */
     List<ProductImage> findImagesByPid(Integer spuId);
 
     /**
-     * 查询SPU(待上传)的所有销售属性
+     * 查询的SPU下所有销售属性
      * @param spuId SPU(product_info)的id
      * @return 当前SPU对应的所有销售属性(包含销售属性值)
      */
     List<ProductSaleAttr> findSaleAttrByPid(Integer spuId);
 
     /**
-     * 保存SPU(待上传)相关信息
-     * @param productInfo
+     * 查询所有的销售属性(包括当前SKU销售数值选中状态)
+     * @param spuId
+     * @param skuId
+     * @return
      */
-    void saveSpuInfo(ProductInfo productInfo);
+    List<ProductSaleAttr> findSPUSaleAttrAndCheck(Integer spuId, Integer skuId);
+
+    /**
+     * 根据skuId查询对应的spu的信息
+     * @param skuId
+     * @return
+     */
+    ProductInfo findSPUBySkuId(Long skuId);
+
 
 }

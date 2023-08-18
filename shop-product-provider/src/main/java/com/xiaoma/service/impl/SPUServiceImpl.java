@@ -1,9 +1,7 @@
 package com.xiaoma.service.impl;
 
-import com.xiaoma.mapper.ProductImageMapper;
-import com.xiaoma.mapper.ProductInfoMapper;
-import com.xiaoma.mapper.ProductSaleAttrMapper;
-import com.xiaoma.mapper.ProductSaleAttrValueMapper;
+import com.xiaoma.mapper.custom.ProductSaleAttrCustomMapper;
+import com.xiaoma.mapper.generate.*;
 import com.xiaoma.pojo.*;
 import com.xiaoma.service.SPUService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +24,49 @@ public class SPUServiceImpl implements SPUService {
     @Autowired
     ProductSaleAttrValueMapper productSaleAttrValueMapper;
 
+    @Autowired
+    ProductSaleAttrCustomMapper productSaleAttrCustomMapper;
+
+    @Autowired
+    SkuInfoMapper skuInfoMapper;
+
+    @Autowired
+    BrandMapper brandMapper;
+
     @Override
     public List<ProductInfo> findAll(Integer catalog3Id) {
         ProductInfoExample productInfoExample = new ProductInfoExample();
         productInfoExample.createCriteria().andCatalog3IdEqualTo(catalog3Id.longValue());
         return productInfoMapper.selectByExample(productInfoExample);
+    }
+
+    @Override
+    public void saveSpuInfo(ProductInfo productInfo) {
+        // 1.保存SPU信息,插入成功,productInfo具有ID
+        productInfoMapper.insertSelective(productInfo);
+
+        // 2.保存SPU对应的图片信息
+        productInfo.getProductImageList().forEach(productImage -> {
+            productImage.setProductId(productInfo.getId());
+            productImage.setImgUrl("http://175.178.16.179:8888/" + productImage.getImgUrl());
+            productImageMapper.insertSelective(productImage);
+        });
+
+        //3.保存销售属性相关信息
+        productInfo.getProductSaleAttrList().forEach(
+                productSaleAttr -> {
+                    productSaleAttr.setProductId(productInfo.getId());
+                    productSaleAttrMapper.insertSelective(productSaleAttr);
+
+                    //4.保存销售属性对应的属性值
+                    productSaleAttr.getProductSaleAttrValueList().forEach(
+                            productSaleAttrValue -> {
+                                productSaleAttrValue.setProductId(productInfo.getId());
+                                productSaleAttrValueMapper.insertSelective(productSaleAttrValue);
+                            }
+                    );
+                }
+        );
     }
 
     @Override
@@ -64,32 +100,21 @@ public class SPUServiceImpl implements SPUService {
     }
 
     @Override
-    public void saveSpuInfo(ProductInfo productInfo) {
-        // 1.保存SPU信息,插入成功,productInfo具有ID
-        productInfoMapper.insertSelective(productInfo);
+    public List<ProductSaleAttr> findSPUSaleAttrAndCheck(Integer spuId, Integer skuId) {
+        return productSaleAttrCustomMapper.selectSPUSaleAttrAndCheck(spuId,skuId);
+    }
 
-        // 2.保存SPU对应的图片信息
-        productInfo.getProductImageList().forEach(productImage -> {
-            productImage.setProductId(productInfo.getId());
-            productImage.setImgUrl("http://175.178.16.179:8888/" + productImage.getImgUrl());
-            productImageMapper.insertSelective(productImage);
-        });
+    @Override
+    public ProductInfo findSPUBySkuId(Long skuId) {
+        SkuInfo skuInfo = skuInfoMapper.selectByPrimaryKey(skuId);
 
-        //3.保存销售属性相关信息
-        productInfo.getProductSaleAttrList().forEach(
-                productSaleAttr -> {
-                    productSaleAttr.setProductId(productInfo.getId());
-                    productSaleAttrMapper.insertSelective(productSaleAttr);
+        ProductInfo productInfo = productInfoMapper.selectByPrimaryKey(skuInfo.getProductId());
 
-                    //4.保存销售属性对应的属性值
-                    productSaleAttr.getProductSaleAttrValueList().forEach(
-                            productSaleAttrValue -> {
-                                productSaleAttrValue.setProductId(productInfo.getId());
-                                productSaleAttrValueMapper.insertSelective(productSaleAttrValue);
-                            }
-                    );
-                }
-        );
+        Brand brand = brandMapper.selectByPrimaryKey(productInfo.getTmId());
+
+        productInfo.setBrand(brand);
+
+        return productInfo;
     }
 
 

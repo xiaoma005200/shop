@@ -1,8 +1,8 @@
 package com.xiaoma.service.impl;
 
-import com.xiaoma.mapper.BaseCatalog1Mapper;
-import com.xiaoma.mapper.BaseCatalog2Mapper;
-import com.xiaoma.mapper.BaseCatalog3Mapper;
+import com.xiaoma.mapper.generate.BaseCatalog1Mapper;
+import com.xiaoma.mapper.generate.BaseCatalog2Mapper;
+import com.xiaoma.mapper.generate.BaseCatalog3Mapper;
 import com.xiaoma.pojo.*;
 import com.xiaoma.service.ProductCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
