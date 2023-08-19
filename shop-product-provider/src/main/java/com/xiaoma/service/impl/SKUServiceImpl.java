@@ -4,6 +4,7 @@ import com.xiaoma.mapper.generate.SkuAttrValueMapper;
 import com.xiaoma.mapper.generate.SkuImageMapper;
 import com.xiaoma.mapper.generate.SkuInfoMapper;
 import com.xiaoma.mapper.generate.SkuSaleAttrValueMapper;
+import com.xiaoma.pojo.SkuImageExample;
 import com.xiaoma.pojo.SkuInfo;
 import com.xiaoma.service.SKUService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,17 @@ public class SKUServiceImpl implements SKUService {
             skuSaleAttrValueMapper.insertSelective(skuSaleAttrValue);
         });
 
+    }
+
+    @Override
+    public SkuInfo findBySkuInfoId(Integer skuInfoId) {
+        // 1.查询Sku的基本信息
+        SkuInfo skuInfo = skuInfoMapper.selectByPrimaryKey(skuInfoId.longValue());
+
+        // 2.查询sku对应的图片列表
+        SkuImageExample skuImageExample = new SkuImageExample();
+        skuImageExample.createCriteria().andSkuIdEqualTo(skuInfoId.longValue());
+        skuInfo.setSkuImageList(skuImageMapper.selectByExample(skuImageExample));
+        return skuInfo;
     }
 }

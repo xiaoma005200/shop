@@ -12,4 +12,11 @@ public interface SKUService {
      * @param skuInfo
      */
     void saveSkuInfo(SkuInfo skuInfo);
+
+    /**
+     * 根据SKUid查询商品SKU信息
+     * @param skuInfoId
+     * @return
+     */
+    SkuInfo findBySkuInfoId(Integer skuInfoId);
 }
