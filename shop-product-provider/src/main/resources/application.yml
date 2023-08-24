@@ -6,4 +6,8 @@ spring:
     name: shop-product-provider
   profiles:
     active: provider-config
-
+  redis:
+    host: 175.178.16.179
+    password: 123456
+  cache:
+    type: redis # 指定缓存产品
