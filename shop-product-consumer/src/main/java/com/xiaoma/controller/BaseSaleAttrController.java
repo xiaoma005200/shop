@@ -18,7 +18,7 @@ public class BaseSaleAttrController {
     ProductClient productClient;
 
     @PostMapping("/baseSaleAttrList")
-    public List<BaseSaleAttr> findAllSaleAttr(){
-        return productClient.findAllSaleAttr();
+    public List<BaseSaleAttr> findAllBaseSaleAttr(){
+        return productClient.findAllBaseSaleAttr();
     }
 }

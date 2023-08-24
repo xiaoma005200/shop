@@ -6,7 +6,7 @@
        <id column="si_id" property="id"/>
       <!--private List<SkuSaleAttrValue> skuSaleAttrValueList;-->
 <!--       <collection property="skuSaleAttrValueList" ofType="SkuSaleAttrValue">-->
-           <collection property="skuSaleAttrValueList" resultMap="SkuSaleAttrValue">
+           <collection property="skuSaleAttrValueList" ofType="SkuSaleAttrValue">
              <id column="ssav_id" property="id"/>
              <result column="sale_attr_value_id" property="saleAttrValueId"/>
        </collection>

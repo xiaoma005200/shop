@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiaoma.mapper.custom.ProductSaleAttrCustomMapper">
 
+    <!--自定义result,一对多映射 type:返回值泛型-->
     <resultMap id="selectSPUSaleAttrAndCheckMap" type="ProductSaleAttr"
                extends="com.xiaoma.mapper.generate.ProductSaleAttrMapper.BaseResultMap">
       <result column="psa_id" property="id"/>

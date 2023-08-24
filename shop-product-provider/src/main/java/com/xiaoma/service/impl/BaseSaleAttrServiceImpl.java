@@ -16,7 +16,7 @@ public class BaseSaleAttrServiceImpl implements BaseSaleAttrService {
     BaseSaleAttrMapper baseSaleAttrMapper;
 
     @Override
-    public List<BaseSaleAttr> findAllSaleAttr() {
+    public List<BaseSaleAttr> findAllBaseSaleAttr() {
         return baseSaleAttrMapper.selectByExample(new BaseSaleAttrExample());
     }
 }

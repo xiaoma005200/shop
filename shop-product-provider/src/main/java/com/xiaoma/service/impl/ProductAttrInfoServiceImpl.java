@@ -26,7 +26,14 @@ public class ProductAttrInfoServiceImpl implements ProductAttrInfoService {
     public List<BaseAttrInfo> getAttrByCatalog3Id(Integer catalog3Id) {
         BaseAttrInfoExample baseAttrInfoExample = new BaseAttrInfoExample();
         baseAttrInfoExample.createCriteria().andCatalog3IdEqualTo(catalog3Id.longValue());
-        return baseAttrInfoMapper.selectByExample(baseAttrInfoExample);
+        List<BaseAttrInfo> baseAttrInfos = baseAttrInfoMapper.selectByExample(baseAttrInfoExample);
+        // 查询每个属性对应的属性列表
+        baseAttrInfos.forEach(baseAttrInfo -> {
+            BaseAttrValueExample baseAttrValueExample = new BaseAttrValueExample();
+            baseAttrValueExample.createCriteria().andAttrIdEqualTo(baseAttrInfo.getId());
+            baseAttrInfo.setAttrValueList(baseAttrValueMapper.selectByExample(baseAttrValueExample));
+        });
+        return baseAttrInfos;
     }
 
     /**

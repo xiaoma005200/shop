@@ -68,7 +68,8 @@
     <nav>
         <div class="nav_min">
             <div class="nav_top">
-                <div class="nav_top_one"><a href="#"><img src="../static/img/logo1.jpg" th:src="@{/img/logo1.jpg}"/></a></div>
+                <div class="nav_top_one"><a href="#"><img src="../static/img/logo1.jpg" th:src="@{/img/logo1.jpg}"/></a>
+                </div>
                 <div class="nav_top_two"><input type="text"/>
                     <button>搜索</button>
                 </div>
@@ -192,8 +193,10 @@
                     <div class="box-attr-2 clear" th:each="productSaleAttr : ${productSaleAttrList}">
                         <dl>
                             <dt th:text="${productSaleAttr.saleAttrName}">销售属性1</dt>
-                            <dd th:each="productSaleAttrValue : ${productSaleAttr.productSaleAttrValueList}">
-                                <div th:text="${productSaleAttrValue.saleAttrValueName}">
+                            <dd th:class="${productSaleAttrValue.isChecked}?'redborder':''"
+                                th:each="productSaleAttrValue : ${productSaleAttr.productSaleAttrValueList}">
+                                <div th:value="${productSaleAttrValue.id}"
+                                     th:text="${productSaleAttrValue.saleAttrValueName}">
                                     销售属性值
                                 </div>
                             </dd>
@@ -247,14 +250,16 @@
             <div class="dangeshopxingqing">
                 <ul class="shopdange">
                     <li>
-                        <a href="##"><img src="../static/img/e25cedad2debc25e.jpg" th:src="@{/img/e25cedad2debc25e.jpg}"/></a>
+                        <a href="##"><img src="../static/img/e25cedad2debc25e.jpg"
+                                          th:src="@{/img/e25cedad2debc25e.jpg}"/></a>
                         <p>
                             <a href="##">吉普JEEP牛仔裤男修身新品厚款直筒长裤子男士牛仔裤宽松休闲男裤 A312蓝色（厚款） 32（2尺4腰围）</a>
                         </p>
                         <p><strong class="J-p-20015341974">￥158.00</strong></p>
                     </li>
                     <li>
-                        <a href="##"><img src="../static/img/e583bed35b8257b6.jpg" th:src="@{/img/e583bed35b8257b6.jpg}"/></a>
+                        <a href="##"><img src="../static/img/e583bed35b8257b6.jpg"
+                                          th:src="@{/img/e583bed35b8257b6.jpg}"/></a>
                         <p>
                             <a target="_blank" title="吉普JEEP休闲裤男天丝2020春夏季新品中腰直筒宽松男裤子商务男裤 B601深蓝 32码=2尺4"
                                href="/item.html.bak/item.jd.com/20348283521.html">吉普JEEP休闲裤男天丝2020春夏季新品中腰直筒宽松男裤子商务男裤
@@ -263,14 +268,16 @@
                         <p><strong class="J-p-20348283521">￥158.00</strong></p>
                     </li>
                     <li>
-                        <a href="##"><img src="../static/img/e25cedad2debc25e.jpg" th:src="@{/img/e25cedad2debc25e.jpg}"/></a>
+                        <a href="##"><img src="../static/img/e25cedad2debc25e.jpg"
+                                          th:src="@{/img/e25cedad2debc25e.jpg}"/></a>
                         <p>
                             <a href="##">吉普JEEP牛仔裤男修身新品厚款直筒长裤子男士牛仔裤宽松休闲男裤 A312蓝色（厚款） 32（2尺4腰围）</a>
                         </p>
                         <p><strong class="J-p-20015341974">￥158.00</strong></p>
                     </li>
                     <li>
-                        <a href="##"><img src="../static/img/e583bed35b8257b6.jpg" th:src="@{/img/e583bed35b8257b6.jpg}"/></a>
+                        <a href="##"><img src="../static/img/e583bed35b8257b6.jpg"
+                                          th:src="@{/img/e583bed35b8257b6.jpg}"/></a>
                         <p>
                             <a target="_blank" title="吉普JEEP休闲裤男天丝2020春夏季新品中腰直筒宽松男裤子商务男裤 B601深蓝 32码=2尺4"
                                href="/item.html.bak/item.jd.com/20348283521.html">吉普JEEP休闲裤男天丝2020春夏季新品中腰直筒宽松男裤子商务男裤
@@ -286,7 +293,8 @@
             <div class="dangeshopxingqing">
                 <ul class="shopdange">
                     <li>
-                        <a href="##"><img src="../static/img/5664d30ce7fe00a7.jpg" th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
+                        <a href="##"><img src="../static/img/5664d30ce7fe00a7.jpg"
+                                          th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
                         <p>
                             <a target="_blank" title="吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右"
                                href="/item.html.bak/item.jd.com/17931625443.html">吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男
@@ -294,7 +302,8 @@
                         <p><strong class="J-p-17931625443">￥238.00</strong></p>
                     </li>
                     <li>
-                        <a href="##"><img src="../static/img/5664d30ce7fe00a7.jpg" th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
+                        <a href="##"><img src="../static/img/5664d30ce7fe00a7.jpg"
+                                          th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
                         <p>
                             <a target="_blank" title="吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右"
                                href="/item.html.bak/item.jd.com/17931625443.html">吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男
@@ -303,7 +312,8 @@
                     </li>
 
                     <li>
-                        <a href="##"><img src="../static/img/5664d30ce7fe00a7.jpg" th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
+                        <a href="##"><img src="../static/img/5664d30ce7fe00a7.jpg"
+                                          th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
                         <p>
                             <a target="_blank" title="吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右"
                                href="/item.html.bak/item.jd.com/17931625443.html">吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男
@@ -311,7 +321,8 @@
                         <p><strong class="J-p-17931625443">￥238.00</strong></p>
                     </li>
                     <li>
-                        <a href="##"><img src="../static/img/5664d30ce7fe00a7.jpg" th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
+                        <a href="##"><img src="../static/img/5664d30ce7fe00a7.jpg"
+                                          th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
                         <p>
                             <a target="_blank" title="吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右"
                                href="/item.html.bak/item.jd.com/17931625443.html">吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男
@@ -396,8 +407,10 @@
                             </table>
                             <img class="xiaoguo" src="../static/img/5a0d4181Nf70c5ebf.jpg"
                                  th:src="@{/img/5a0d4181Nf70c5ebf.jpg}"/>
-                            <img class="xiaoguo" src="../static/img/c9324c6d09816e85.jpg" th:src="@{/img/c9324c6d09816e85.jpg}"/>
-                            <img class="xiaoguo" src="../static/img/7361781e04eba481.jpg" th:src="@{/img/7361781e04eba481.jpg}"/>
+                            <img class="xiaoguo" src="../static/img/c9324c6d09816e85.jpg"
+                                 th:src="@{/img/c9324c6d09816e85.jpg}"/>
+                            <img class="xiaoguo" src="../static/img/7361781e04eba481.jpg"
+                                 th:src="@{/img/7361781e04eba481.jpg}"/>
 
 
                             <!--厂家服务-->
@@ -426,13 +439,14 @@
     </ul>
 </div>
 <div class="gouwuchexiaguo">
-    <img src="../static/img/44.png"/>
+    <img src="/img/44.png"/>
     <span>购物车还没有商品，赶紧选购吧！</span>
 </div>
 </body>
 
-<script src="../static/js/jquery1.9.js" type="text/javascript" charset="utf-8"></script>
-<script src="../static/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/jquery1.9.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/spu.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     function addToCart(obj) {
         var canClick = $(obj).attr("canClick");
@@ -441,6 +455,37 @@
         }
         $("#itemForm").submit();
     }
+
+    /**
+     * 完成sku切换
+     */
+    function switchSku() {
+        // 1.获取页面所中所有红色边框属性值id
+        var saleAttrValId = "";
+        $(".redborder div").each(function (index, item) {
+            // 拼接所有的销售属性id
+            /**
+             * 三目运算
+             */
+            (index != $(".redborder div").length - 1) ? saleAttrValId += $(item).attr("value") + "#" : saleAttrValId += $(item).attr("value");
+
+            /**
+             * if-else写法
+             if(index != $(".redborder div").length-1){
+                saleAttrValId += $(item).attr("value") + "#";
+            }else{
+                saleAttrValId += $(item).attr("value");
+            }
+             */
+        })
+
+        // 2.根据销售属性值id拼接作为key去json对象中获取对应的value(skuId)
+        var skuId = saleAttrValueIdAndSkuId[saleAttrValId];
+
+        // 3.跳转到对应的sku页面
+        window.location.href = "/shop/product/" + skuId + ".html";
+    }
+
 </script>
 
 </html>

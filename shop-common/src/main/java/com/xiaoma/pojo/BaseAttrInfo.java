@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseAttrInfo {
+public class BaseAttrInfo implements Serializable {
     /**
     * 编号
     */
@@ -34,4 +35,7 @@ public class BaseAttrInfo {
      * 新建一个集合接收属性属性值列表
      */
     private List<BaseAttrValue> attrValueList;
+
+    private static final long serialVersionUID = 1L;
+
 }

@@ -25,9 +25,14 @@ public class ProductDetailController {
         model.addAttribute("skuInfo", skuInfo);
 
         // 2.根据spuId查询出对应的销售属性和销售属性值
-        List<ProductSaleAttr> productSaleAttrList = productClient.spuSaleAttrList(skuInfo.getProductId().intValue());
+        //List<ProductSaleAttr> productSaleAttrList = productClient.spuSaleAttrList(skuInfo.getProductId().intValue());
+        //model.addAttribute("productSaleAttrList", productSaleAttrList);
+        List<ProductSaleAttr> productSaleAttrList = productClient.productSaleAttrsAndCheck(skuInfo.getProductId().intValue(), skuInfoId);
         model.addAttribute("productSaleAttrList", productSaleAttrList);
+
         return "productDetail";
     }
+
+
 }
 

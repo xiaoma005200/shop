@@ -10,8 +10,8 @@ import java.util.List;
 public interface BaseSaleAttrService {
 
     /**
-     * 查询商品所有销售属性
+     * 查询商品基本销售属性(baseSaleAttr表)
      * @return
      */
-    List<BaseSaleAttr> findAllSaleAttr();
+    List<BaseSaleAttr> findAllBaseSaleAttr();
 }

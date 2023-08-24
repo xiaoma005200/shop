@@ -49,7 +49,15 @@
             <groupId>org.csource</groupId>
             <artifactId>fastdfs-client-java</artifactId>
             <version>1.30-SNAPSHOT</version>
+            <!--在引入fastdfs-client-java的时候不再引入他的传递依赖slf4j-slf4j12-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-slf4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
     </dependencies>
 
 </project>

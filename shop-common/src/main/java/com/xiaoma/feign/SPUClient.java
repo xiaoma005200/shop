@@ -12,15 +12,15 @@ import java.util.List;
 
 public interface SPUClient {
 
-    @GetMapping("/shop/product/spuList")
-    List<ProductInfo> findAll(@RequestParam("catalog3Id") Integer catalog3Id);
+    @GetMapping("/shop/product/productInfoList")
+    List<ProductInfo> productInfoList(@RequestParam("catalog3Id") Integer catalog3Id);
 
     @PostMapping("/shop/product/baseSaleAttrList")
-    List<BaseSaleAttr> findAllSaleAttr();
+    List<BaseSaleAttr> findAllBaseSaleAttr();
 
     /**
      * @RequestParam("file")是vue中或者html中<input type="file" name="file"></input>的name的值
-     * consumes指定方法处理何种请求
+     * consumes指定方法处理何种请求类型
      * produces指定响应的数据类型
      * @param file
      * @return
@@ -28,8 +28,8 @@ public interface SPUClient {
     @PostMapping(value = "/shop/product/fileUpload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     String fileUpload(@RequestPart("file") MultipartFile file);
 
-    @PostMapping("/shop/product/saveSpuInfo")
-    void saveSpuInfo(@RequestBody ProductInfo productInfo);
+    @PostMapping("/shop/product/saveProductInfo")
+    void saveProductInfo(@RequestBody ProductInfo productInfo);
 
     @GetMapping("/shop/product/spuImageList")
     List<ProductImage> spuImageList(@RequestParam("spuId") Integer spuId);

@@ -4,13 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
     * sku销售属性值
     */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SkuSaleAttrValue {
+public class SkuSaleAttrValue implements Serializable {
     /**
     * id
     */

@@ -19,10 +19,10 @@ public interface SPUService {
     List<ProductInfo> findAll(Integer catalog3Id);
 
     /**
-     * 保存SPU相关信息
+     * 添加SPU
      * @param productInfo
      */
-    void saveSpuInfo(ProductInfo productInfo);
+    void saveProductInfo(ProductInfo productInfo);
 
     /**
      * 查询SPU下的所有图片

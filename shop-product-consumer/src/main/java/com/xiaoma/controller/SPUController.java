@@ -18,9 +18,9 @@ public class SPUController {
     @Autowired
     ProductClient productClient;
 
-    @GetMapping("/spuList")
-    public List<ProductInfo> findAll(Integer catalog3Id){
-        return productClient.findAll(catalog3Id);
+    @GetMapping("/productInfoList")
+    public List<ProductInfo> productInfoList(Integer catalog3Id){
+        return productClient.productInfoList(catalog3Id);
     }
 
     @PostMapping("/fileUpload")
@@ -28,9 +28,9 @@ public class SPUController {
         return productClient.fileUpload(file);
     }
 
-    @PostMapping("/saveSpuInfo")
-    public void saveSpuInfo(@RequestBody ProductInfo productInfo) {
-        productClient.saveSpuInfo(productInfo);
+    @PostMapping("/saveProductInfo")
+    public void saveProductInfo(@RequestBody ProductInfo productInfo) {
+        productClient.saveProductInfo(productInfo);
     }
 
     @GetMapping("/spuImageList")

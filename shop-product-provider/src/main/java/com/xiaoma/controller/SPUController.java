@@ -21,8 +21,8 @@ public class SPUController {
     @Autowired
     FastDFSUtils fastDFSUtils;
 
-    @GetMapping("/spuList")
-    public List<ProductInfo> findAll(Integer catalog3Id){
+    @GetMapping("/productInfoList")
+    public List<ProductInfo> productInfoList(Integer catalog3Id){
         return spuService.findAll(catalog3Id);
     }
 
@@ -36,9 +36,9 @@ public class SPUController {
         return fastDFSUtils.uploadFile(file);
     }
 
-    @PostMapping("/saveSpuInfo")
-    public void saveSpuInfo(@RequestBody ProductInfo productInfo) {
-        spuService.saveSpuInfo(productInfo);
+    @PostMapping("/saveProductInfo")
+    public void saveProductInfo(@RequestBody ProductInfo productInfo) {
+        spuService.saveProductInfo(productInfo);
     }
 
     @GetMapping("/spuImageList")

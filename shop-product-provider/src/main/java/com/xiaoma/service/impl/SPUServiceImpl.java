@@ -41,24 +41,24 @@ public class SPUServiceImpl implements SPUService {
     }
 
     @Override
-    public void saveSpuInfo(ProductInfo productInfo) {
-        // 1.保存SPU信息,插入成功,productInfo具有ID
+    public void saveProductInfo(ProductInfo productInfo) {
+        // 1.保存SPU信息,插入成功,productInfo具有ID==>product_info
         productInfoMapper.insertSelective(productInfo);
 
-        // 2.保存SPU对应的图片信息
+        // 2.保存SPU对应的图片信息==>product_image
         productInfo.getProductImageList().forEach(productImage -> {
             productImage.setProductId(productInfo.getId());
             productImage.setImgUrl("http://175.178.16.179:8888/" + productImage.getImgUrl());
             productImageMapper.insertSelective(productImage);
         });
 
-        //3.保存销售属性相关信息
+        //3.保存销售属性相关信息==>product_sale_attr
         productInfo.getProductSaleAttrList().forEach(
                 productSaleAttr -> {
                     productSaleAttr.setProductId(productInfo.getId());
                     productSaleAttrMapper.insertSelective(productSaleAttr);
 
-                    //4.保存销售属性对应的属性值
+                    //4.保存销售属性对应的属性值==>product_sale_attr_value
                     productSaleAttr.getProductSaleAttrValueList().forEach(
                             productSaleAttrValue -> {
                                 productSaleAttrValue.setProductId(productInfo.getId());
@@ -88,8 +88,8 @@ public class SPUServiceImpl implements SPUService {
             // 2.1 查询spu对应的所有的属性值
             ProductSaleAttrValueExample productSaleAttrValueExample = new ProductSaleAttrValueExample();
             productSaleAttrValueExample.createCriteria()
-                    .andProductIdEqualTo(spuId.longValue())
-                    .andSaleAttrIdEqualTo(productSaleAttr.getSaleAttrId());
+                    .andProductIdEqualTo(spuId.longValue())  //该sku的属性值是哪个spu下的
+                    .andSaleAttrIdEqualTo(productSaleAttr.getSaleAttrId());  //是sku的哪个属性的属性值
 
             List<ProductSaleAttrValue> productSaleAttrValues = productSaleAttrValueMapper.selectByExample(productSaleAttrValueExample);
             // 2.2 将属性值设置到每个productSaleAttr
@@ -107,11 +107,8 @@ public class SPUServiceImpl implements SPUService {
     @Override
     public ProductInfo findSPUBySkuId(Long skuId) {
         SkuInfo skuInfo = skuInfoMapper.selectByPrimaryKey(skuId);
-
         ProductInfo productInfo = productInfoMapper.selectByPrimaryKey(skuInfo.getProductId());
-
         Brand brand = brandMapper.selectByPrimaryKey(productInfo.getTmId());
-
         productInfo.setBrand(brand);
 
         return productInfo;
