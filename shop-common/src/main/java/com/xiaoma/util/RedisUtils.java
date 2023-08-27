@@ -3,9 +3,11 @@ package com.xiaoma.util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -72,6 +74,17 @@ public class RedisUtils {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * 执行lua脚本
+     * @param script
+     * @param keys
+     * @param args
+     * @return
+     */
+    public Object execLuaScript(String script, Class<?> resultCls,  List<Object> keys, Object...args){
+        return redisTemplate.execute(RedisScript.of(script,resultCls),keys,args);
     }
 
     /**

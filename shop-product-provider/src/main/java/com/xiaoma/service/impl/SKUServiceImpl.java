@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -125,10 +126,13 @@ public class SKUServiceImpl implements SKUService {
                  * 有可能操作数据库的时间 < 锁的过期时间,会导致操作完数据库锁还没有释放
                  * 此时我们就使用del主动删除锁,让其它线程可以立即获得锁,而不是一直等待锁过期
                  */
-                Object LockValue = redisUtils.get("sku:" + skuInfoId + ":lock");
+                /*Object LockValue = redisUtils.get("sku:" + skuInfoId + ":lock");
                 if(LockValue!=null && LockValue.equals(currentThreadLock)){ //if条件为真,说明上述查询数据库完成之后锁仍然没有释放,此时主动释放锁
                     redisUtils.del("sku:" + skuInfoId + ":lock");
-                }
+                }*/
+                //利用lua脚本将判断锁和删除锁合成一个原子操作(避免出现if判断锁是否存在后直接切换到其他线程执行,锁在自动删除后再切换回来执行del操作发现已无锁可删的问题)
+                redisUtils.execLuaScript("if redis.call('get',KEYS[1])== ARGV[1] then return redis.call('del',KEYS[1]) else " +
+                        "return 0 end", Long.class, Collections.singletonList("sku:" + skuInfoId + ":lock"), currentThreadLock);
             }else{ //isLock为false,说明当前线程持有锁失败 ==> 持有锁失败递归调用findBySkuInfoId方法继续请求
                 try {
                     Thread.sleep(1000); //当前线程睡眠1s给其它线程访问锁的机会
