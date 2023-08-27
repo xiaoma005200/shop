@@ -3,6 +3,7 @@ package com.xiaoma.config;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -12,6 +13,7 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.net.UnknownHostException;
+import java.time.Duration;
 
 /**
  * 底层redis自动配置中的
@@ -39,10 +41,36 @@ public class RedisConfig {
 		return template;
 	}
 
+	/**
+	 * 主缓存管理器==>作为主配置
+	 * @Primary 主缓存管理器
+	 * 禁用缓存null值
+	 * @param redisConnectionFactory
+	 * @return
+	 */
 	@Bean
+	@Primary
 	public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory){
 		RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-				.disableCachingNullValues()
+				.disableCachingNullValues()//禁用缓存null值
+				.serializeKeysWith(RedisSerializationContext.SerializationPair
+						.fromSerializer(new StringRedisSerializer()))
+				.serializeValuesWith(RedisSerializationContext.SerializationPair
+						.fromSerializer(new GenericJackson2JsonRedisSerializer()));
+		return RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(cacheConfiguration).build();
+	}
+
+	/**
+	 * 缓存管理器
+	 * 允许缓存null值,并设置缓存过期时间为5min
+	 * @param redisConnectionFactory
+	 * @return
+	 */
+	@Bean
+	public CacheManager cacheManagerTTL(RedisConnectionFactory redisConnectionFactory){
+		RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+				//.disableCachingNullValues()//禁用缓存null值
+				.entryTtl(Duration.ofMinutes(5))//设置过期时间为5min
 				.serializeKeysWith(RedisSerializationContext.SerializationPair
 						.fromSerializer(new StringRedisSerializer()))
 				.serializeValuesWith(RedisSerializationContext.SerializationPair
