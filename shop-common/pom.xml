@@ -57,11 +57,18 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--redis依赖-->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
             <version>2.3.2.RELEASE</version>
             <scope>compile</scope>
+        </dependency>
+        <!--es依赖-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-elasticsearch</artifactId>
+            <version>4.0.2.RELEASE</version>
         </dependency>
 
     </dependencies>

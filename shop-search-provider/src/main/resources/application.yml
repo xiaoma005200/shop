@@ -1,0 +1,27 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: shop-search-provider
+  profiles:
+    active: provider-config
+  redis:
+    host: 175.178.16.179
+    password: 123456
+
+# hystrix的超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 50000
+
+  # ribbon的超时时间
+ribbon:
+  ReadTimeout: 500000
+  ConnectTimeout: 500000

@@ -30,7 +30,4 @@ public interface ProductClient extends SPUClient, SKUClient {
     @PostMapping("/shop/product/getAttrValueList")
     List<BaseAttrValue> getAttrValueList(@RequestParam("attrId") Integer attrId);
 
-
-
-
 }

@@ -197,4 +197,21 @@ public class SKUServiceImpl implements SKUService {
                                         .collect(Collectors.joining("#")),SkuInfo::getId));
         return map;
     }
+
+    @Override
+    public List<SkuInfo> findAll(Long catalog3Id) {
+        // 1.根据三级分类id查询所有的skuInfo
+        SkuInfoExample skuInfoExample = new SkuInfoExample();
+        skuInfoExample.createCriteria().andCatalog3IdEqualTo(catalog3Id);
+        List<SkuInfo> skuInfoList = skuInfoMapper.selectByExample(skuInfoExample);
+
+        // 2.根据每个sku的id查询出每个sku对应的属性id和属性值id
+        skuInfoList.forEach(skuInfo -> {
+            SkuAttrValueExample skuAttrValueExample = new SkuAttrValueExample();
+            skuAttrValueExample.createCriteria().andSkuIdEqualTo(skuInfo.getId());
+            List<SkuAttrValue> skuAttrValueList = skuAttrValueMapper.selectByExample(skuAttrValueExample);
+            skuInfo.setSkuAttrValueList(skuAttrValueList);
+        });
+        return skuInfoList;
+    }
 }

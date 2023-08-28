@@ -5,6 +5,7 @@ import com.xiaoma.service.SKUService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -28,5 +29,10 @@ public class SKUController {
     @GetMapping("/findSkuSaleAttrValuesBySpuId")
     public Map<String, Long> findSkuSaleAttrValuesBySpuId(Long spuId) {
         return skuService.findSkuSaleAttrValuesBySpuId(spuId);
+    }
+
+    @GetMapping("/findAll")
+    public List<SkuInfo> findAll(Long catalog3Id){
+        return skuService.findAll(catalog3Id);
     }
 }
