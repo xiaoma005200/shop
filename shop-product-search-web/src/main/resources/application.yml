@@ -1,0 +1,11 @@
+server:
+  port: 9003
+
+spring:
+  application:
+    name: shop-product-search-web
+  profiles:
+    active: consumer-config
+  redis:
+    host: 175.178.16.179
+    password: 123456

@@ -10,6 +10,9 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.List;
 
+/**
+ * 封装elasticsearch中shop对象保存的数据
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
