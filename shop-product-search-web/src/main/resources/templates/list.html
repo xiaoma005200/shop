@@ -140,7 +140,27 @@
                             <ul>
                                 <li>
                                     <a href="#" title="T365 音乐 MUSIC 乐器 演奏 T恤 男女皆可穿 多色同款可选 短T 素T TEE 短袖 上衣 棉T"><img
-                                            src="/list/img/T恤.jpg" alt=""></a>
+                                            src="/list/img/Txu.jpg" alt=""></a>
+                                    <a href="#" title="T365 音乐 MUSIC 乐器 演奏 T恤 男女皆可穿 多色同款可选 短T 素T TEE 短袖 上衣 棉T">
+                                        <em>T365 音乐 MUSIC 乐器 演奏 T恤 男女皆可穿 多色同款可选 短T 素T TEE 短袖 上衣 棉T</em>
+                                    </a>
+                                    <div class="mc_price">
+                                        <strong class="price">
+                                            <span class="J-p-5963064">￥199.00</span>
+                                        </strong>
+                                        <span class="mc-ico" title="购买本商品送赠品">
+                                            <i class="goods-icons">赠品</i>product_image
+                                        </span>
+                                    </div>
+                                    <div class="mc_rev">
+                                        已有
+                                        <a href="#" class="number">1300</a>
+                                        人评价
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="#" title="T365 音乐 MUSIC 乐器 演奏 T恤 男女皆可穿 多色同款可选 短T 素T TEE 短袖 上衣 棉T"><img
+                                            src="/list/img/Txu.jpg" alt=""></a>
                                     <a href="#" title="T365 音乐 MUSIC 乐器 演奏 T恤 男女皆可穿 多色同款可选 短T 素T TEE 短袖 上衣 棉T">
                                         <em>T365 音乐 MUSIC 乐器 演奏 T恤 男女皆可穿 多色同款可选 短T 素T TEE 短袖 上衣 棉T</em>
                                     </a>
@@ -160,27 +180,7 @@
                                 </li>
                                 <li>
                                     <a href="#" title="T365 音乐 MUSIC 乐器 演奏 T恤 男女皆可穿 多色同款可选 短T 素T TEE 短袖 上衣 棉T"><img
-                                            src="/list/img/T恤.jpg" alt=""></a>
-                                    <a href="#" title="T365 音乐 MUSIC 乐器 演奏 T恤 男女皆可穿 多色同款可选 短T 素T TEE 短袖 上衣 棉T">
-                                        <em>T365 音乐 MUSIC 乐器 演奏 T恤 男女皆可穿 多色同款可选 短T 素T TEE 短袖 上衣 棉T</em>
-                                    </a>
-                                    <div class="mc_price">
-                                        <strong class="price">
-                                            <span class="J-p-5963064">￥199.00</span>
-                                        </strong>
-                                        <span class="mc-ico" title="购买本商品送赠品">
-                                            <i class="goods-icons">赠品</i>
-                                        </span>
-                                    </div>
-                                    <div class="mc_rev">
-                                        已有
-                                        <a href="#" class="number">1300</a>
-                                        人评价
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" title="T365 音乐 MUSIC 乐器 演奏 T恤 男女皆可穿 多色同款可选 短T 素T TEE 短袖 上衣 棉T"><img
-                                            src="/list/img/T恤.jpg" alt=""></a>
+                                            src="/list/img/Txu.jpg" alt=""></a>
                                     <a href="#" title="T365 音乐 MUSIC 乐器 演奏 T恤 男女皆可穿 多色同款可选 短T 素T TEE 短袖 上衣 棉T">
                                         <em>T365 音乐 MUSIC 乐器 演奏 T恤 男女皆可穿 多色同款可选 短T 素T TEE 短袖 上衣 棉T</em>
                                     </a>
@@ -259,20 +259,38 @@
                     <div class="filter_page">
                         <div class="page_wrap">
                               <span class="page_span1">
-                                  <a href="#">
+                                  <a href="#"
+                                  th:if="${not #lists.isEmpty(pageResult.pageData)}"
+                                  th:href="@{/shop/list(currentPage=${shopSearchQuery.currentPage}-1,keyword=${shopSearchQuery.keyword},catalog3Id=${shopSearchQuery.catalog3Id})}"
+                                  th:style="${shopSearchQuery.currentPage!=1}?'background-color:#f0f0f0;color:black':'' "
+                                  >
                                       < 上一页
                                   </a>
-                                  <a href="#" style="border: 0;color:#ee2222;background: #fff">1</a>
+
+                                  <!--<a href="#" style="border: 0;color:#ee2222;background: #fff">1</a>
                                   <a href="#">2</a>
                                   <a href="#">3</a>
                                   <a href="#">4</a>
-                                  <a href="#">5</a>
-                                  <a href="#">
+                                  <a href="#">5</a>-->
+
+                                  <span th:if="${not #lists.isEmpty(pageResult.pageData)}" th:each="pageNum:${#numbers.sequence(1,pageResult.getTotalPage())}">
+                                      <a href="#"
+                                         th:href="@{/shop/list(currentPage=${pageNum},keyword=${shopSearchQuery.keyword},catalog3Id=${shopSearchQuery.catalog3Id})}"
+                                         th:style="${pageNum==shopSearchQuery.currentPage}?'border:0;color:red;background:#ffff;':'color:black;background:#f0f0f0' "
+                                         th:text="${pageNum}"
+                                      ></a>
+                                  </span>
+
+                                  <a href="#"
+                                     th:if="${not #lists.isEmpty(pageResult.pageData)}"
+                                     th:href="@{/shop/list(currentPage=${shopSearchQuery.currentPage}+1,keyword=${shopSearchQuery.keyword},catalog3Id=${shopSearchQuery.catalog3Id})}"
+                                     th:style="${shopSearchQuery.currentPage==pageResult.totalPage}?'background-color:#f7f7f7;color:#cccc':'' "
+                                  >
                                       下一页 >
                                   </a>
                               </span>
                             <span class="page_span2">
-                                  <em>共<b>5</b>页</em>
+                                  <em>共<b th:text="${pageResult.totalPage}">5</b>页</em>
 
                               </span>
                         </div>

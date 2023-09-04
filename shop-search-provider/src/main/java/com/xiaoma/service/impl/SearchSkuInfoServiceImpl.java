@@ -7,10 +7,13 @@ import com.xiaoma.vo.ShopSearchQuery;
 import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.bucket.terms.ParsedTerms;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -41,6 +44,33 @@ public class SearchSkuInfoServiceImpl implements SearchSkuInfoService {
         if (StringUtils.isNotBlank(shopSearchQuery.getKeyword())) {
             boolQueryBuilder.filter(QueryBuilders.queryStringQuery(shopSearchQuery.getKeyword()).field("skuName"));
         }
+        //根据valueId查询
+        /**
+        GET shop/_search
+            {
+              "query": {
+                "bool": {
+                  "filter": [
+                    {
+                      "term": {
+                        "skuAttrValueList.valueId": "252"
+                      }
+
+                    },{
+                      "term": {
+                      "skuAttrValueList.valueId": "247"
+                      }
+                    }
+                  ]
+
+                }
+              }
+            }
+        */
+        if (!CollectionUtils.isEmpty(shopSearchQuery.getValueId())) {
+            shopSearchQuery.getValueId().forEach(valueId ->
+                    boolQueryBuilder.filter(QueryBuilders.termQuery("skuAttrValueList.valueId",valueId)));
+        }
         queryBuilder.withQuery(boolQueryBuilder);
 
         // 构建排序字段
@@ -50,6 +80,31 @@ public class SearchSkuInfoServiceImpl implements SearchSkuInfoService {
         queryBuilder.withHighlightFields(new HighlightBuilder.Field("skuName")
                 .preTags("<font style='color:red'>")
                 .postTags("</font>"));
+
+        // 分页查询PageRequest.of()第一个参数只得是第几页(默认从第0页开始)
+        queryBuilder.withPageable(PageRequest.of(shopSearchQuery.getCurrentPage()-1,shopSearchQuery.getPageSize()));
+
+        //构造聚合条件,根据valueId分组统计
+        /**
+         * GET shop/_search
+         * {
+         *   "query": {
+         *     "match_all": {}
+         *   },
+         *   "aggs": {
+         *     "groupby_valueId": {
+         *       "terms": {
+         *         "field": "skuAttrValueList.valueId",
+         *         "size": 100
+         *       }
+         *     }
+         *   }
+         *
+         * }
+         */
+        queryBuilder.addAggregation(AggregationBuilders.terms("groupby_valueId")
+                .field("skuAttrValueList.valueId")
+                .size(Integer.MAX_VALUE));
 
         // 2.执行查询
         SearchHits<SearchSkuInfo> skuInfoSearchHits = elasticsearchRestTemplate.search(queryBuilder.build(), SearchSkuInfo.class);
@@ -69,6 +124,24 @@ public class SearchSkuInfoServiceImpl implements SearchSkuInfoService {
         // 4.将searchSkuInfoList封装到PageResult
         PageResult<SearchSkuInfo> pageResult = new PageResult<>();
         pageResult.setPageData(searchSkuInfoList);
+
+        // 5.设置分页相关参数
+        long totalCount = skuInfoSearchHits.getTotalHits();
+        pageResult.setTotalCount(totalCount);
+        /**
+         * totalCount=10 pageSize=3 totalPage=4
+         * totalCount=12 pageSize=3 totalPage=4
+         */
+        long totalPage = (totalCount + shopSearchQuery.getPageSize() - 1) / shopSearchQuery.getPageSize();
+        pageResult.setTotalPage(totalPage);
+
+        //6.取出聚合查询的结果
+        ParsedTerms parsedTerms = skuInfoSearchHits.getAggregations().get("groupby_valueId");
+        List<Integer> valueIds = parsedTerms.getBuckets().stream()
+                .map(bucket -> Integer.parseInt(bucket.getKey() + ""))
+                .collect(Collectors.toList());
+        pageResult.setValueIds(valueIds);
+
         return pageResult;
     }
 }

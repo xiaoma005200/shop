@@ -30,4 +30,9 @@ public class ProductAttrInfoController {
     public List<BaseAttrValue> getAttrValueList(Integer attrId){
         return productAttrInfoService.getAttrValueByAttrId(attrId);
     }
+
+    @PostMapping("/getAttrByValueIds")
+    public List<BaseAttrInfo> getAttrByValueIds(@RequestBody List<Integer> valueIds){
+        return productAttrInfoService.findByValueIds(valueIds);
+    }
 }

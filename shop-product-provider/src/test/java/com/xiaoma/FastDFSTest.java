@@ -33,8 +33,10 @@ public class FastDFSTest {
         StorageClient storageClient = new StorageClient(trackerServer, null);
 
         // 5.上传图片
-        String[] paths = storageClient.upload_file("E:\\2023_2_27\\课程19_带你从零玩转企业级分布式电商系统\\01_企业级分布式电商系统\\01_企业级分布式电商系统\\resources\\04\\测试图片\\2.jpg",
-                "jpg", new NameValuePair[]{new NameValuePair("filename", "2.jpg")});
+        /*String[] paths = storageClient.upload_file("E:\\2023_2_27\\课程19_带你从零玩转企业级分布式电商系统\\01_企业级分布式电商系统\\01_企业级分布式电商系统\\resources\\04\\测试图片\\2.jpg",
+                "jpg", new NameValuePair[]{new NameValuePair("filename", "2.jpg")});*/
+        String[] paths = storageClient.upload_file("C:\\Users\\xiaoma\\Pictures\\开发\\短袖体恤2.jpg",
+                "jpg", new NameValuePair[]{new NameValuePair("filename", "短袖体恤2.jpg")});
         Arrays.stream(paths).forEach(System.out::println);
     }
 

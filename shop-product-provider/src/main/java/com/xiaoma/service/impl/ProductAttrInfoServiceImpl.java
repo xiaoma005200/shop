@@ -1,5 +1,6 @@
 package com.xiaoma.service.impl;
 
+import com.xiaoma.mapper.custom.BaseAttrInfoCustomMapper;
 import com.xiaoma.mapper.generate.BaseAttrInfoMapper;
 import com.xiaoma.mapper.generate.BaseAttrValueMapper;
 import com.xiaoma.pojo.BaseAttrInfo;
@@ -21,6 +22,9 @@ public class ProductAttrInfoServiceImpl implements ProductAttrInfoService {
 
     @Autowired
     BaseAttrValueMapper baseAttrValueMapper;
+
+    @Autowired
+    BaseAttrInfoCustomMapper baseAttrInfoCustomMapper;
 
     @Override
     public List<BaseAttrInfo> getAttrByCatalog3Id(Integer catalog3Id) {
@@ -73,5 +77,10 @@ public class ProductAttrInfoServiceImpl implements ProductAttrInfoService {
         BaseAttrValueExample baseAttrValueExample = new BaseAttrValueExample();
         baseAttrValueExample.createCriteria().andAttrIdEqualTo(attrId.longValue());
         return baseAttrValueMapper.selectByExample(baseAttrValueExample);
+    }
+
+    @Override
+    public List<BaseAttrInfo> findByValueIds(List<Integer> valueIds) {
+        return baseAttrInfoCustomMapper.selectBaseAttrByValueIds(valueIds);
     }
 }

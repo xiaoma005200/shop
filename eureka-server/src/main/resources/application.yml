@@ -1,11 +1,13 @@
 spring:
   application:
     name: eureka-server
+
 server:
   port: 8000
+
 eureka:
   client:
     fetch-registry: false
     register-with-eureka: false
     service-url:
-      defaultZone: http://127.0.0.1:8000/eureka # 注册中心地址
+      defaultZone: http://175.178.16.179:8000/eureka # 注册中心地址

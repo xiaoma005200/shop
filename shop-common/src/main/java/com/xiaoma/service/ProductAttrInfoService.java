@@ -29,4 +29,11 @@ public interface ProductAttrInfoService {
      * @return 属性值列表
      */
     List<BaseAttrValue> getAttrValueByAttrId(Integer attrId);
+
+    /**
+     * 根据属性值的id查询出所有的属性
+     * @param valueIds
+     * @return
+     */
+    List<BaseAttrInfo> findByValueIds(List<Integer> valueIds);
 }
