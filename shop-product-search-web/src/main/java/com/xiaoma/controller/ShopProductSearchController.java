@@ -49,6 +49,11 @@ public class ShopProductSearchController {
         String urlParams = getUrlParams(shopSearchQuery);
         model.addAttribute("urlParams",urlParams);
 
+        for (int i = 0; i < 5; i++) {
+            System.out.println("*************************************");
+        }
+        System.out.println(urlParams);
+
         return "list";
     }
 
@@ -63,29 +68,31 @@ public class ShopProductSearchController {
         List<String> valueIds = shopSearchQuery.getValueId();
 
         StringBuilder urlParams = new StringBuilder();
+
         if (StringUtils.isNotBlank(keyword)) {
             if(urlParams.length() != 0){
                 urlParams.append("&");
             }
-            urlParams.append("keyword" + keyword);
+            urlParams.append("keyword=" + keyword);
         }
 
         if (catalog3Id != null) {
             if(urlParams.length() != 0){
                 urlParams.append("&");
             }
-            urlParams.append("catalog3Id" + catalog3Id);
+            urlParams.append("catalog3Id=" + catalog3Id);
         }
 
         if (!CollectionUtils.isEmpty(valueIds)) {
             if(urlParams.length() != 0){
                 urlParams.append("&");
             }
-            /*  247,238  valueId=247,valueId=238  */
-            urlParams.append(valueIds.stream().map(valueId -> "valueId" + valueId)
+            /*  247,238  valueId=247&valueId=238  */
+            urlParams.append(valueIds.stream().map(valueId -> "valueId=" + valueId)
                     .collect(Collectors.joining("&")));
         }
 
         return urlParams.toString();
     }
+
 }

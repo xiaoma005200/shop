@@ -269,7 +269,7 @@
 
                                   <a href="#"
                                      th:if="${not #lists.isEmpty(pageResult.pageData) && #strings.isEmpty(urlParams)}"
-                                     th:href="${shopSearchQuery.currentPage}!=1 ? '/shop/list?currentPage='+${shopSearchQuery.getCurrentPage()-1}:'javascript:return false;'"
+                                     th:href="${shopSearchQuery.currentPage}!=1 ? '/shop/list?'+${urlParams}+'&amp;currentPage='+${shopSearchQuery.getCurrentPage()-1}:'javascript:return false;'"
                                      th:style="${shopSearchQuery.currentPage!=1}?'background-color:#f0f0f0;color:black':'cursor:default'"
                                   >
                                       < 上一页
@@ -284,7 +284,7 @@
                                   <span th:if="${not #lists.isEmpty(pageResult.pageData)}"
                                         th:each="pageNum: ${#numbers.sequence(1,pageResult.getTotalPage())}">
                                       <a href="#"
-                                         th:if="${not #strings.isEmpty(urlParams)}"
+                                         th:if="not ${#strings.isEmpty(urlParams)}"
                                          th:href="${pageNum!=shopSearchQuery.currentPage}?'/shop/list?'+${urlParams}+'&amp;currentPage='+${pageNum}:'javascript:return false;'"
                                          th:style="${pageNum==shopSearchQuery.currentPage}?'border:0;color:red;background:#ffff;cursor:default':'color:black;background:#f0f0f0'"
                                          th:text="${pageNum}"
@@ -308,7 +308,7 @@
 
                                     <a href="#"
                                        th:if="${not #lists.isEmpty(pageResult.pageData)&& #strings.isEmpty(urlParams)}"
-                                       th:href="${shopSearchQuery.currentPage!=pageResult.totalPage} ? '/shop/list?currentPage='+${shopSearchQuery.getCurrentPage()+1}:'javascript:return false;'"
+                                       th:href="${shopSearchQuery.currentPage!=pageResult.totalPage} ? '/shop/list?'+${urlParams}+'&amp;currentPage='+${shopSearchQuery.getCurrentPage()+1}:'javascript:return false;'"
                                        th:style="${shopSearchQuery.currentPage==pageResult.totalPage}?'background-color:#f7f7f7;color:#cccc;cursor:default;':''"
                                     >
                                       下一页 >

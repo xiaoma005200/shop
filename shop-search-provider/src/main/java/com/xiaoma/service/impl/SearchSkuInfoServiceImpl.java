@@ -36,7 +36,7 @@ public class SearchSkuInfoServiceImpl implements SearchSkuInfoService {
 
         //******************使用BoolQueryBuilder构造布尔查询条件*********************
         // 三级分类Id参数
-        if (shopSearchQuery.getCatalog3Id() != null) {
+        if (shopSearchQuery.getCatalog3Id()!=null) {//不为空才构建查询条件
             boolQueryBuilder.filter(QueryBuilders.termQuery("catalog3Id", shopSearchQuery.getCatalog3Id()));
         }
 
@@ -76,13 +76,14 @@ public class SearchSkuInfoServiceImpl implements SearchSkuInfoService {
         // 构建排序字段
         queryBuilder.withSort(SortBuilders.fieldSort("price").order(SortOrder.ASC));
 
+
         // 指定高亮字段和样式
         queryBuilder.withHighlightFields(new HighlightBuilder.Field("skuName")
                 .preTags("<font style='color:red'>")
                 .postTags("</font>"));
 
         // 分页查询PageRequest.of()第一个参数只得是第几页(默认从第0页开始)
-        queryBuilder.withPageable(PageRequest.of(shopSearchQuery.getCurrentPage()-1,shopSearchQuery.getPageSize()));
+        queryBuilder.withPageable(PageRequest.of(shopSearchQuery.getCurrentPage() - 1, shopSearchQuery.getPageSize()));
 
         //构造聚合条件,根据valueId分组统计
         /**
@@ -110,8 +111,7 @@ public class SearchSkuInfoServiceImpl implements SearchSkuInfoService {
         SearchHits<SearchSkuInfo> skuInfoSearchHits = elasticsearchRestTemplate.search(queryBuilder.build(), SearchSkuInfo.class);
 
         // 3.将SearchHits<SearchSkuInfo>转换成List<SearchSkuInfo>
-        List<SearchSkuInfo> searchSkuInfoList = skuInfoSearchHits
-                .stream()
+        List<SearchSkuInfo> searchSkuInfoList = skuInfoSearchHits.stream()
                 .map(skuInfoSearchHit -> skuInfoSearchHit.getContent())
                 .collect(Collectors.toList());
 
