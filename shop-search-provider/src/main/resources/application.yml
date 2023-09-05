@@ -6,9 +6,6 @@ spring:
     name: shop-search-provider
   profiles:
     active: provider-config
-  redis:
-    host: 175.178.16.179
-    password: 123456
 
 # hystrix的超时时间
 hystrix:

@@ -5,6 +5,9 @@ spring:
       url: jdbc:mysql://175.178.16.179:3306/shop?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
       username: root
       password: 123456
+  redis:
+    url: 175.178.16.179
+    password: 123456
   elasticsearch:
     rest:
       uris: http://192.168.204.99:9200 # ElasticSearch地址

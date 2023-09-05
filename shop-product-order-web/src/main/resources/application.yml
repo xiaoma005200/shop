@@ -1,0 +1,11 @@
+server:
+  port: 9006
+
+spring:
+  application:
+    name: shop-product-order-web
+  thymeleaf:
+    cache: false
+  profiles:
+    active: consumer-config
+

@@ -1,10 +1,11 @@
 server:
-  port: 9002
+  port: 9005
 
 spring:
   application:
-    name: shop-product-detail-web
+    name: shop-product-cart-web
   thymeleaf:
     cache: false
   profiles:
     active: consumer-config
+

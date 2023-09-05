@@ -1,9 +1,9 @@
 server:
-  port: 9002
+  port: 9004
 
 spring:
   application:
-    name: shop-product-detail-web
+    name: shop-auth-web
   thymeleaf:
     cache: false
   profiles:
