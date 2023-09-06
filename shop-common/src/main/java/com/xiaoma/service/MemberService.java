@@ -28,4 +28,11 @@ public interface MemberService {
      * @return 根据会员名模糊匹配的会员集合
      */
     List<Member> findByUsername(String username);
+
+    /**
+     * 根据用户名密码查询用户
+     * @param member 封装用户名密码等信息
+     * @return member对象
+     */
+    Member findByUsernameAndPwd(Member member);
 }

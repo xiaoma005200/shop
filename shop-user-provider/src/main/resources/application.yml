@@ -4,24 +4,6 @@ server:
 spring:
   application:
     name: shop-user-provider
-  datasource:
-    druid:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://175.178.16.179:3306/shop?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
-      username: root
-      password: 123456
-
-mybatis:
-  type-aliases-package: com.xiaoma.pojo # 别名com.xiaoma.pojo.Xyz===>Xyz
-  mapper-locations: classpath:com.xiaoma/mapper/*.xml # mapper.xml文件位置
-
-logging:
-  level:
-    com.xiaoma.mapper: debug # 查看sql输出
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://175.178.16.179:8000/eureka # 注册中心地址
+  profiles:
+    active: provider-config
 

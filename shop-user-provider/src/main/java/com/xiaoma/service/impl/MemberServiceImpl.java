@@ -6,6 +6,7 @@ import com.xiaoma.pojo.MemberExample;
 import com.xiaoma.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -33,5 +34,13 @@ public class MemberServiceImpl implements MemberService {
 
         // 2.传入查询条件,执行查询
         return memberMapper.selectByExample(memberExample);
+    }
+
+    @Override
+    public Member findByUsernameAndPwd(Member member) {
+        MemberExample memberExample = new MemberExample();
+        memberExample.createCriteria().andUsernameEqualTo(member.getUsername()).andPasswordEqualTo(member.getPassword());
+        List<Member> members = memberMapper.selectByExample(memberExample);
+        return CollectionUtils.isEmpty(members) ? null : members.get(0);
     }
 }
