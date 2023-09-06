@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.concurrent.TimeUnit;
 
 @Controller
@@ -35,7 +38,7 @@ public class AuthController {
      * @return 认证成功,重定向至index页面,认证失败返回login页面
      */
     @PostMapping("/auth")
-    public String auth(Member member, HttpServletRequest request, HttpServletResponse response){
+    public String auth(Member member, HttpServletRequest request, HttpServletResponse response,String returnURL) throws UnsupportedEncodingException {
         // 1.去数据库校验用户名密码
         Member loginMember = memberClient.findByUsernameAndPwd(member);
         if (loginMember!=null) {
@@ -44,9 +47,14 @@ public class AuthController {
             cookieUtils.setCookie(request,response,"token",loginMember.getId()+"",300,true);
             // 3.向redis写入一个token
             redisUtils.set("user:"+loginMember.getId()+":token",loginMember.getUsername(),300, TimeUnit.SECONDS);
-            return "redirect:/shop/index";
-        }else{
-            // 用户名密码不正确
+
+            // 如果有回调地址就重定向到回调地址,如果没有回调地址则重定向到首页
+            if (StringUtils.isNotBlank(returnURL)) {
+                return "redirect:"+ URLDecoder.decode(returnURL,"UTF-8");
+            }else{
+                return "redirect:/shop/index";
+            }
+        }else{// 用户名密码不正确,返回登录页
             return "/login";
         }
     }
@@ -56,7 +64,10 @@ public class AuthController {
      * @return login.html
      */
     @GetMapping("/login")
-    public String login(){
+    public String login(String returnURL,Model model) throws UnsupportedEncodingException {
+        if (StringUtils.isNotBlank(returnURL)) {
+            model.addAttribute("returnURL", URLEncoder.encode(returnURL,"UTF-8"));
+        }
         return "/login";
     }
 

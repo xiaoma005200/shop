@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="https://www.thymeleaf.org/">
+    <title>购物车首页</title>
+    <script src="/js/jquery-3.1.1.min.js"></script>
+    <script>
+        $(function (){
+            $("div a").click(function (){
+                window.location.href="http://localhost:9004/shop/login?returnURL=[[${returnURL}]]"
+            });
+        });
+    </script>
+</head>
+<body>
+    <!--用户未登录-->
+    <div th:if="${#strings.isEmpty(username)}">
+        <h2>临时购物车</h2>
+        <a href="#">登录</a>
+    </div>
+
+    <!--用户已登录-->
+    <div th:if="${not #strings.isEmpty(username)}">
+        <h2>[[${username}]]的购物车</h2>
+    </div>
+</body>
+</html>
