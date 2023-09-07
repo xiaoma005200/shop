@@ -65,7 +65,7 @@
             <version>0.9.1</version>
             <scope>compile</scope>
         </dependency>
-        <!--相关依赖-->
+        <!--Gson相关依赖-->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>

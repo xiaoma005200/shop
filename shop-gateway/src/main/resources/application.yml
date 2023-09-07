@@ -1,1 +1,74 @@
+server:
+  port: 8081
 
+spring:
+  application:
+    name: shop-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: shop-auth-web
+          uri: lb://shop-auth-web
+          predicates:
+            - Path=/shop/auth,/shop/login,/shop/index
+
+        - id: shop-product-cart-web
+          uri: lb://shop-product-cart-web
+          predicates:
+            - Path=/shop/cart/**
+
+        - id: shop-product-order-web
+          uri: lb://shop-product-order-web
+          predicates:
+            - Path=/shop/order/**
+
+        - id: shop-product-detail-web
+          uri: lb://shop-product-detail-web
+          predicates:
+            - Path=/shop/product/**
+
+        - id: shop-static-resources
+          uri: lb://shop-static-resources
+          predicates:
+            - Path=/img/**,/image/**,/js/**,/css/**,/index/**,/bootstrap/**,/order/**,/pay/**,/trade/**,/list/**
+
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://175.178.16.179:3306/shop?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
+      username: root
+      password: 123456
+    redis:
+      host: 175.178.16.179
+      password: 123456
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://175.178.16.179:8000/eureka # 注册中心地址
+
+# hystrix的超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 50000
+
+# ribbon的超时时间
+ribbon:
+  ReadTimeout: 50000
+  ConnectTimeout: 50000
+
+# 自定义配置
+required:
+  login:
+    paths: /shop/order
+jwt:
+  secretKey: shop

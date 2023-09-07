@@ -8,3 +8,7 @@ spring:
     cache: false
   profiles:
     active: consumer-config
+
+#自定义配置
+jwt:
+  secretKey: shop

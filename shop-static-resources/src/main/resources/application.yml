@@ -1,0 +1,35 @@
+server:
+  port: 7000
+
+spring:
+  application:
+    name: shop-static-resources
+  thymeleaf:
+    cache: false
+
+# 注册中心
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://175.178.16.179:8000/eureka
+  instance:
+    ip-address: 175.178.16.179
+    prefer-ip-address: true # 优先按照ip查找,否则按照主机名查找
+
+# hystrix的超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 50000
+
+  # ribbon的超时时间
+ribbon:
+  ReadTimeout: 50000
+  ConnectTimeout: 50000

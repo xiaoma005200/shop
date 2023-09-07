@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/shop/cart")
@@ -30,8 +32,8 @@ public class ProductCartController {
      * @return
      */
     @GetMapping("/index")
-    public String index(HttpServletRequest request, Model model) throws UnsupportedEncodingException {
-        // 1.从cookie中取得token
+    public String index(@RequestHeader Map<String,String> headers, HttpServletRequest request, Model model) throws UnsupportedEncodingException {
+        /*// 1.从cookie中取得token
         String userId = cookieUtils.getCookieValue(request, "token", true);
 
         // 2.根据token中的保存的userId判断
@@ -44,6 +46,10 @@ public class ProductCartController {
             }
         }
         model.addAttribute("returnURL", URLEncoder.encode(request.getRequestURL().toString(),"UTF-8"));
+        return "/index";*/
+
+        model.addAttribute("username",headers.get("username"));
+        model.addAttribute("returnURL", URLEncoder.encode("http://localhost:8081"+request.getRequestURI(),"UTF-8")); // request.getRequestURI()取的是/shop/cart/index
         return "/index";
     }
 }
