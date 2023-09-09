@@ -25,8 +25,18 @@ public class ProductOrderController {
     @Autowired
     RedisUtils redisUtils;
 
+    @GetMapping("/trade")
+    public String trade(){
+        return  "trade";
+    }
+
+    @GetMapping("/pay")
+    public String pay(){
+        return  "pay";
+    }
+
     /**
-     * 访问订单首页
+     * 访问订单首页,必须登录才能访问订单页面
      * @param request
      * @param model
      * @return

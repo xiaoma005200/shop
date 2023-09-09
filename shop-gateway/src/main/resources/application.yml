@@ -28,6 +28,21 @@ spring:
           predicates:
             - Path=/shop/product/**
 
+        - id: shop-product-search-web
+          uri: lb://shop-product-search-web
+          predicates:
+            - Path=/shop/list
+
+        - id: shop-alipay-web
+          uri: lb://shop-alipay-web
+          predicates:
+            - Path=/shop/alipay/**
+
+        - id: shop-wxpay-web
+          uri: lb://shop-wxpay-web
+          predicates:
+            - Path=/shop/wxPay/**
+
         - id: shop-static-resources
           uri: lb://shop-static-resources
           predicates:
