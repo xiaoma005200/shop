@@ -9,6 +9,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Redis工具类,为了方便操作redis
@@ -115,6 +117,66 @@ public class RedisUtils {
         return true;
     }
 
+    /**
+     * 根据key和field取出redis中的hash类型的数据
+     *
+     * @param key
+     * @param field
+     * @return
+     */
+    public Object hget(String key, Object field) {
+        return StringUtils.isEmpty(key) ? null : redisTemplate.opsForHash().get(key, field);
+    }
+
+    /**
+     * 根据hash的key获取所有的value
+     * @param key
+     * @return
+     */
+    public List hvals(String key) {
+        return StringUtils.isEmpty(key) ? null : redisTemplate.opsForHash().values(key);
+    }
+
+    /**
+     * 根据hash的key和field来删除value
+     */
+    public boolean hdel(String key, Object field) {
+        try {
+            redisTemplate.opsForHash().delete(key, field);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 操作redis的list数据类型:不断的往左侧追加
+     */
+    public boolean lpush(String key,Object value) {
+        try {
+            redisTemplate.opsForList().leftPush(key, value);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 操作redis的list数据类型:返回list中所有的value
+     */
+    public List listAll(String key) {
+        return redisTemplate.opsForList().range(key, 0, -1);
+    }
+
+    /**
+     * 操作redis的list数据类型:删除已有value
+     */
+    public Long lrem(String key,Object value) {
+        return redisTemplate.opsForList().remove(key, 0, value);
+    }
+
 
     /**
      * 根据key和field取出redis中的hash类型的数据
@@ -123,9 +185,9 @@ public class RedisUtils {
      * @param field
      * @return
      */
-    public Object get(String key, Object field) {
+    /*public Object get(String key, Object field) {
         return StringUtils.isEmpty(key) ? null : redisTemplate.opsForHash().get(key, field);
-    }
+    }*/
 
     /**
      * 通用方法:根据key删除对应的数据
@@ -134,6 +196,15 @@ public class RedisUtils {
      */
     public void del(String key) {
         redisTemplate.delete(key);
+    }
+
+    /**
+     * 通用方法:根据key删除对应的数据
+     *
+     * @param key
+     */
+    public void del(String...key) {
+        redisTemplate.delete(Stream.of(key).collect(Collectors.toList()));
     }
 
     /**

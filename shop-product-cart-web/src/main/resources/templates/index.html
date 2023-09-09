@@ -23,12 +23,16 @@
 
             </ul>
             <ul class="header-right">
-                <li th:if="${#strings.isEmpty(userInfo.username)}"><a
-                        th:href="@{http://localhost:8081/shop/login(returnURL=${returnURL})}" href="../登录页面\index.html"
-                        style="color: red;">你好，请登录</a></li>
-                <li th:if="${#strings.isEmpty(userInfo.username)}"><a href="../注册页面\index.html">免费注册</a></li>
-                <li th:if="${not #strings.isEmpty(userInfo.username)}"><a style="color:red" href="#"
-                                                                          th:text="'你好,'+${userInfo.username}"></a></li>
+                <li th:if="${#strings.isEmpty(userInfo.username)}">
+                    <a th:href="@{http://localhost:8081/shop/login(returnURL=${returnURL})}" href="../登录页面\index.html"
+                       style="color: red;">你好，请登录</a>
+                </li>
+                <li th:if="${#strings.isEmpty(userInfo.username)}">
+                    <a href="../注册页面\index.html">免费注册</a>
+                </li>
+                <li th:if="${not #strings.isEmpty(userInfo.username)}">
+                    <a style="color:red" href="#" th:text="'你好,'+${userInfo.username}"></a>
+                </li>
                 <li class="spacer"></li>
                 <li><a href="">我的订单</a></li>
                 <li class="spacer"></li>
@@ -96,7 +100,8 @@
                                     <p>
                                         <span th:text="${cartInfo.skuName}">TCL 55A950C 55英寸32核</span><br/>
                                         <span th:each="saleAttrValue:${cartInfo.skuSaleAttrValueList}"
-                                              th:utext="${saleAttrValue.saleAttrName}+':'+${saleAttrValue.saleAttrValueName}+'&nbsp;&nbsp;'"></span>
+                                              th:utext="${saleAttrValue.saleAttrName}+':'+${saleAttrValue.saleAttrValueName}+'&nbsp;&nbsp;'">
+                                        </span>
                                     </p>
                                 </dd>
                             </li>

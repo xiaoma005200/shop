@@ -4,11 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" type="text/css" href="../static/css/shop.css" th:href="@{/css/shop.css}"/>
-    <link rel="stylesheet" type="text/css" href="../static/css/main.css" th:href="@{/css/main.css}"/>
-    <link rel="stylesheet" href="../static/css/header.css" th:href="@{/css/header.css}"/>
-    <link rel="stylesheet" type="text/css" href="../static/bootstrap/css/bootstrap.css"
-          th:href="@{/bootstrap/css/bootstrap.css}"/>
+    <link rel="stylesheet" type="text/css" href="css/shop.css" th:href="@{/css/shop.css}"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" href="css/header.css" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css" th:href="@{/bootstrap/css/bootstrap.css}"/>
 </head>
 <body>
 <div id="max">
@@ -16,8 +15,8 @@
 
         <div class="min">
             <ul class="header_ul_left">
-                <li class="glyphicon glyphicon-home"><a href="shouye.html" class="aa">首页</a></li>
-                <li class="glyphicon glyphicon-map-marker"><a href="javascript:;">北京</a>
+                <li class="glyphicon glyphicon-home"> <a href="shouye.html" class="aa">首页</a></li>
+                <li class="glyphicon glyphicon-map-marker"> <a href="javascript:;">北京</a>
                     <ol id="beijing">
                         <li style="background: red;"><a href="javascript:;" style="color: white;">北京</a></li>
                         <li><a href="javascript:;">上海</a></li>
@@ -58,25 +57,21 @@
                 </li>
             </ul>
             <ul class="header_ul_right">
-                <li style="border: 0;"><a href="../登录页面\index.html" class="aa">你好，请登录</a></li>
-                <li><a href="../注册页面\index.html" style="color: red;">免费注册</a> |</li>
+                <li th:if="${#strings.isEmpty(username)}" style="border: 0;"><a th:href="@{http://localhost:8081/shop/login(returnURL=${returnURL})}" href="../登录页面\index.html" class="aa">你好，请登录</a></li>
+                <li th:if="${#strings.isEmpty(username)}" ><a href="../注册页面\index.html" style="color: red;">免费注册</a> |</li>
+                <li th:if="${not #strings.isEmpty(username)}"><a style="color:red" href="#" th:text="'你好,'+${username}"></a></li>
                 <li><a href="javascript:;" class="aa">我的订单</a> |</li>
-
             </ul>
         </div>
     </header>
     <nav>
         <div class="nav_min">
             <div class="nav_top">
-                <div class="nav_top_one"><a href="#"><img src="../static/img/logo1.jpg" th:src="@{/img/logo1.jpg}"/></a>
-                </div>
-                <div class="nav_top_two"><input type="text"/>
-                    <button>搜索</button>
-                </div>
-                <div class="nav_top_three"><a href="../JD_Shop/One_JDshop.html">我的购物车</a><span
-                        class="glyphicon glyphicon-shopping-cart"></span>
+                <div class="nav_top_one"><a href="#"><img src="img/logo1.jpg" th:src="@{/img/logo1.jpg}"/></a></div>
+                <div class="nav_top_two"><input type="text"/><button>搜索</button></div>
+                <div class="nav_top_three"><a th:href="@{http://localhost:8081/shop/cart/index}" href="../JD_Shop/One_JDshop.html">我的购物车</a><span class="glyphicon glyphicon-shopping-cart"></span>
                     <div class="nav_top_three_1">
-                        <img src="../static/img/44.png" th:src="@{/img/44.png}"/>购物车还没有商品，赶紧选购吧！
+                        <img src="/img/44.png" th:src="@{/img/44.png}"/>购物车还没有商品，赶紧选购吧！
                     </div>
                 </div>
             </div>
@@ -98,6 +93,7 @@
     <div class="w">
 
 
+
     </div>
 </div>
 <div class="Shop">
@@ -107,11 +103,11 @@
 
                 <div class="imgbox">
                     <div class="probox">
-                        <img class="img1" alt="" th:src="${skuInfo?.skuDefaultImg}" src="../static/img/1.jpg">
+                        <img class="img1" alt="" th:src="${skuInfo?.skuDefaultImg}"  src="img/1.jpg">
                         <div class="hoverbox"></div>
                     </div>
                     <div class="showbox">
-                        <img class="img1" alt="" th:src="${skuInfo?.skuDefaultImg}" src="../static/img/1.jpg">
+                        <img class="img1" alt="" th:src="${skuInfo?.skuDefaultImg}" src="img/1.jpg">
                     </div>
                 </div>
 
@@ -125,8 +121,7 @@
                         </ul>
                     </div>
                     <div id="left">
-                        <
-                    </div>
+                        < </div>
                     <div id="right">
                         >
                     </div>
@@ -174,14 +169,14 @@
                 </div>
                 <div class="box-stock">
                     <ul class="box-ul">
-                        <li>重 量:</li>
+                        <li>重  量:</li>
                         <li class="box-stock-li">
                             <div class="box-stock-one">
                             </div>
 
 
                         </li>
-                        <li th:text="${skuInfo?.weight}+' kg'">
+                        <li  th:text="${skuInfo?.weight}+' kg'">
                             10 kg
                         </li>
 
@@ -190,26 +185,82 @@
 
                 <div class="box-attr-3">
                     <br/>
-                    <div class="box-attr-2 clear" th:each="productSaleAttr : ${productSaleAttrList}">
+                    <div class="box-attr-2 clear" th:each="productSaleAttr,iterStat: ${productSaleAttrList}">
+                        <!--<div th:text="${iterStat.index}"></div>-->
+                        <!--第一种解决方案-->
+                        <!--				<dl>
+                                            <dt th:text="${productSaleAttr.saleAttrName}">销售属性1</dt>
+                                            <dd th:class="${productSaleAttrValue.isChecked}?'redborder':''" th:each="productSaleAttrValue : ${productSaleAttr.productSaleAttrValueList}">
+                                                <div th:text="${productSaleAttrValue.saleAttrValueName}">
+                                                    销售属性值
+                                                </div>
+                                            </dd>
+                                        </dl>-->
+
+                        <!--	外层第一次循环:
+                                       iterStat.index=0
+                                          内层循环:
+                                             第一次: productSaleAttrValue.id(284),skuInfo.skuSaleAttrValueList[0].saleAttrValueId(284) 选中
+                                             第二次: productSaleAttrValue.id(285),skuInfo.skuSaleAttrValueList[0].saleAttrValueId(284) 不选中
+                                    外层第一次循环:
+                                      iterStat.index=1
+                                        内层循环:
+                                            第一次: productSaleAttrValue.id(286),skuInfo.skuSaleAttrValueList[1].saleAttrValueId(287) 不选中
+                                            第二次: productSaleAttrValue.id(287),skuInfo.skuSaleAttrValueList[1].saleAttrValueId(287)  选中
+                                            第三次: productSaleAttrValue.id(288),skuInfo.skuSaleAttrValueList[1].saleAttrValueId(287)  不选中-->
                         <dl>
                             <dt th:text="${productSaleAttr.saleAttrName}">销售属性1</dt>
-                            <dd th:class="${productSaleAttrValue.isChecked}?'redborder':''"
+                            <dd th:class="${productSaleAttrValue.id==skuInfo.skuSaleAttrValueList[iterStat.index].saleAttrValueId?'redborder':''}"
                                 th:each="productSaleAttrValue : ${productSaleAttr.productSaleAttrValueList}">
-                                <div th:value="${productSaleAttrValue.id}"
-                                     th:text="${productSaleAttrValue.saleAttrValueName}">
+                                <div th:value="${productSaleAttrValue.id}" th:text="${productSaleAttrValue.saleAttrValueName}">
                                     销售属性值
                                 </div>
                             </dd>
                         </dl>
                     </div>
+                    <!--			<div class="box-attr-2 clear">
+                                     <dl>
+                                         <dt>销售属性2</dt>
+                                         <dd>
+                                             <div>
+                                                 销售属性值
+                                             </div>
+                                         </dd>
+                                         <dd>
+                                             <div>
+                                                 销售属性值
+                                             </div>
+                                         </dd>
+                                     </dl>
+                                 </div>-->
+
+                    <!--                  <div class="box-attr-2 clear">
+                                          <dl>
+                                              <dt>销售属性3</dt>
+                                              <dd>
+                                                  <div>
+                                                      销售属性值
+                                                  </div>
+                                              </dd>
+                                              <dd>
+                                                  <div>
+                                                      销售属性值
+                                                  </div>
+                                              <dd>
+                                                  <div>
+                                                      销售属性值
+                                                  </div>
+                                              </dd>
+                                          </dl>
+                                      </div>-->
                     <br/>
                 </div>
 
                 <div class="box-btns clear">
                     <div class="box-btns-one">
                         <form id="itemForm" action="http://localhost:8081/shop/cart/addToCart" method="post">
-                            <input type="text" name="num" id="" value="1"/>
-                            <input type="hidden" name="skuId" th:value="${skuInfo?.id}"/>
+                            <input type="hidden" name="skuId"  th:value="${skuInfo?.id}" />
+                            <input type="text" name="num" value="1"/>
 
                             <div class="box-btns-one1">
 
@@ -227,8 +278,7 @@
                             </div>
                         </form>
                     </div>
-                    <div id="cartBtn" style="cursor:pointer;" canClick="1" onclick="addToCart(this)"
-                         class="box-btns-two">
+                    <div id="cartBtn"  style="cursor:pointer;"  canClick="1"  onclick="addToCart(this)" class="box-btns-two">
 
                         放入购物车
 
@@ -242,6 +292,7 @@
     </div>
 
 
+
     <div class="ShopXiangqing">
         <div class="allLeft">
             <div class="huoreyuyue">
@@ -250,38 +301,30 @@
             <div class="dangeshopxingqing">
                 <ul class="shopdange">
                     <li>
-                        <a href="##"><img src="../static/img/e25cedad2debc25e.jpg"
-                                          th:src="@{/img/e25cedad2debc25e.jpg}"/></a>
+                        <a href="##"><img src="img/e25cedad2debc25e.jpg" th:src="@{/img/e25cedad2debc25e.jpg}" /></a>
                         <p>
                             <a href="##">吉普JEEP牛仔裤男修身新品厚款直筒长裤子男士牛仔裤宽松休闲男裤 A312蓝色（厚款） 32（2尺4腰围）</a>
                         </p>
                         <p><strong class="J-p-20015341974">￥158.00</strong></p>
                     </li>
                     <li>
-                        <a href="##"><img src="../static/img/e583bed35b8257b6.jpg"
-                                          th:src="@{/img/e583bed35b8257b6.jpg}"/></a>
+                        <a href="##"><img src="img/e583bed35b8257b6.jpg" th:src="@{/img/e583bed35b8257b6.jpg}" /></a>
                         <p>
-                            <a target="_blank" title="吉普JEEP休闲裤男天丝2020春夏季新品中腰直筒宽松男裤子商务男裤 B601深蓝 32码=2尺4"
-                               href="/item.html.bak/item.jd.com/20348283521.html">吉普JEEP休闲裤男天丝2020春夏季新品中腰直筒宽松男裤子商务男裤
-                                B601深蓝 32码=2尺4</a>
+                            <a target="_blank" title="吉普JEEP休闲裤男天丝2020春夏季新品中腰直筒宽松男裤子商务男裤 B601深蓝 32码=2尺4" href="/item.html.bak/item.jd.com/20348283521.html">吉普JEEP休闲裤男天丝2020春夏季新品中腰直筒宽松男裤子商务男裤 B601深蓝 32码=2尺4</a>
                         </p>
                         <p><strong class="J-p-20348283521">￥158.00</strong></p>
                     </li>
                     <li>
-                        <a href="##"><img src="../static/img/e25cedad2debc25e.jpg"
-                                          th:src="@{/img/e25cedad2debc25e.jpg}"/></a>
+                        <a href="##"><img src="img/e25cedad2debc25e.jpg" th:src="@{/img/e25cedad2debc25e.jpg}"/></a>
                         <p>
                             <a href="##">吉普JEEP牛仔裤男修身新品厚款直筒长裤子男士牛仔裤宽松休闲男裤 A312蓝色（厚款） 32（2尺4腰围）</a>
                         </p>
                         <p><strong class="J-p-20015341974">￥158.00</strong></p>
                     </li>
                     <li>
-                        <a href="##"><img src="../static/img/e583bed35b8257b6.jpg"
-                                          th:src="@{/img/e583bed35b8257b6.jpg}"/></a>
+                        <a href="##"><img src="img/e583bed35b8257b6.jpg" th:src="@{/img/e583bed35b8257b6.jpg}"/></a>
                         <p>
-                            <a target="_blank" title="吉普JEEP休闲裤男天丝2020春夏季新品中腰直筒宽松男裤子商务男裤 B601深蓝 32码=2尺4"
-                               href="/item.html.bak/item.jd.com/20348283521.html">吉普JEEP休闲裤男天丝2020春夏季新品中腰直筒宽松男裤子商务男裤
-                                B601深蓝 32码=2尺4</a>
+                            <a target="_blank" title="吉普JEEP休闲裤男天丝2020春夏季新品中腰直筒宽松男裤子商务男裤 B601深蓝 32码=2尺4" href="/item.html.bak/item.jd.com/20348283521.html">吉普JEEP休闲裤男天丝2020春夏季新品中腰直筒宽松男裤子商务男裤 B601深蓝 32码=2尺4</a>
                         </p>
                         <p><strong class="J-p-20348283521">￥158.00</strong></p>
                     </li>
@@ -293,40 +336,28 @@
             <div class="dangeshopxingqing">
                 <ul class="shopdange">
                     <li>
-                        <a href="##"><img src="../static/img/5664d30ce7fe00a7.jpg"
-                                          th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
+                        <a href="##"><img src="img/5664d30ce7fe00a7.jpg"  th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
                         <p>
-                            <a target="_blank" title="吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右"
-                               href="/item.html.bak/item.jd.com/17931625443.html">吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男
-                                5013蓝色 L码建议140-155斤左右</a>
+                            <a target="_blank" title="吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右" href="/item.html.bak/item.jd.com/17931625443.html">吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右</a>
                         <p><strong class="J-p-17931625443">￥238.00</strong></p>
                     </li>
                     <li>
-                        <a href="##"><img src="../static/img/5664d30ce7fe00a7.jpg"
-                                          th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
+                        <a href="##"><img src="img/5664d30ce7fe00a7.jpg"  th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
                         <p>
-                            <a target="_blank" title="吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右"
-                               href="/item.html.bak/item.jd.com/17931625443.html">吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男
-                                5013蓝色 L码建议140-155斤左右</a>
+                            <a target="_blank" title="吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右" href="/item.html.bak/item.jd.com/17931625443.html">吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右</a>
                         <p><strong class="J-p-17931625443">￥238.00</strong></p>
                     </li>
 
                     <li>
-                        <a href="##"><img src="../static/img/5664d30ce7fe00a7.jpg"
-                                          th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
+                        <a href="##"><img src="img/5664d30ce7fe00a7.jpg"  th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
                         <p>
-                            <a target="_blank" title="吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右"
-                               href="/item.html.bak/item.jd.com/17931625443.html">吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男
-                                5013蓝色 L码建议140-155斤左右</a>
+                            <a target="_blank" title="吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右" href="/item.html.bak/item.jd.com/17931625443.html">吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右</a>
                         <p><strong class="J-p-17931625443">￥238.00</strong></p>
                     </li>
                     <li>
-                        <a href="##"><img src="../static/img/5664d30ce7fe00a7.jpg"
-                                          th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
+                        <a href="##"><img src="img/5664d30ce7fe00a7.jpg"  th:src="@{/img/5664d30ce7fe00a7.jpg}"/></a>
                         <p>
-                            <a target="_blank" title="吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右"
-                               href="/item.html.bak/item.jd.com/17931625443.html">吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男
-                                5013蓝色 L码建议140-155斤左右</a>
+                            <a target="_blank" title="吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右" href="/item.html.bak/item.jd.com/17931625443.html">吉普JEEP长袖衬衣2020秋冬季新品男装纯色上衣青中年男士商务休闲衬衫男 5013蓝色 L码建议140-155斤左右</a>
                         <p><strong class="J-p-17931625443">￥238.00</strong></p>
                     </li>
                 </ul>
@@ -405,12 +436,9 @@
                                 </tr>
 
                             </table>
-                            <img class="xiaoguo" src="../static/img/5a0d4181Nf70c5ebf.jpg"
-                                 th:src="@{/img/5a0d4181Nf70c5ebf.jpg}"/>
-                            <img class="xiaoguo" src="../static/img/c9324c6d09816e85.jpg"
-                                 th:src="@{/img/c9324c6d09816e85.jpg}"/>
-                            <img class="xiaoguo" src="../static/img/7361781e04eba481.jpg"
-                                 th:src="@{/img/7361781e04eba481.jpg}"/>
+                            <img class="xiaoguo" src="img/5a0d4181Nf70c5ebf.jpg" th:src="@{/img/5a0d4181Nf70c5ebf.jpg}"/>
+                            <img class="xiaoguo" src="img/c9324c6d09816e85.jpg" th:src="@{/img/c9324c6d09816e85.jpg}"/>
+                            <img class="xiaoguo" src="img/7361781e04eba481.jpg" th:src="@{/img/7361781e04eba481.jpg}"/>
 
 
                             <!--厂家服务-->
@@ -420,6 +448,7 @@
                             </div>
 
                         </div>
+
 
 
                     </li>
@@ -439,53 +468,64 @@
     </ul>
 </div>
 <div class="gouwuchexiaguo">
-    <img src="/img/44.png"/>
+    <img src="/img/44.png" />
     <span>购物车还没有商品，赶紧选购吧！</span>
 </div>
 </body>
 
 <script src="/js/jquery1.9.js" type="text/javascript" charset="utf-8"></script>
 <script src="/js/js.js" type="text/javascript" charset="utf-8"></script>
-<script src="/js/spu.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/spu-90.js" type="text/javascript" charset="utf-8"></script>
+
 <script type="text/javascript">
-    function addToCart(obj) {
+    function addToCart(obj){
         var canClick = $(obj).attr("canClick");
-        if (canClick == '0') {
-            return;
+        if(canClick=='0'){
+            return ;
         }
         $("#itemForm").submit();
     }
 
+
+
     /**
      * 完成sku切换
+     *
+     页面缓存的:
+     "284#287": 129,
+     "284#288": 130,
+     "285#288": 133,
+     "285#286": 131,
+     "285#287": 132,
+     "284#286": 128
      */
     function switchSku() {
-        // 1.获取页面所中所有红色边框属性值id
+        //1.获取页面中所有红色边框销售属性值id
         var saleAttrValId = "";
-        $(".redborder div").each(function (index, item) {
-            // 拼接所有的销售属性id
-            /**
-             * 三目运算
-             */
-            (index != $(".redborder div").length - 1) ? saleAttrValId += $(item).attr("value") + "#" : saleAttrValId += $(item).attr("value");
+        $(".redborder div").each(function(index,item){
+            //拼接所有的销售属性值id
+            (index != $(".redborder div").length - 1)?saleAttrValId += $(item).attr("value") + "#":saleAttrValId += $(item).attr("value");
 
-            /**
-             * if-else写法
-             if(index != $(".redborder div").length-1){
-                saleAttrValId += $(item).attr("value") + "#";
-            }else{
-                saleAttrValId += $(item).attr("value");
+        });
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8081/shop/product/getSkuIdByValueIds",
+            data: "valueIds="+saleAttrValId,
+            dataType:"text",
+            success: function(skuId){
+                location.href = "http://localhost:8081/shop/product/" + skuId + ".html";
             }
-             */
-        })
+        });
 
-        // 2.根据销售属性值id拼接作为key去json对象中获取对应的value(skuId)
-        var skuId = saleAttrValueIdAndSkuId[saleAttrValId];
 
-        // 3.跳转到对应的sku页面
-        window.location.href = "/shop/product/" + skuId + ".html";
+        //2.根据销售属性值id拼接作为key去json对象中获取对应的value
+        // var skuId = saleAttrValueIdsAndSkuId[saleAttrValId];
+        //
+        // console.log(skuId);
+
+        //3.跳转到对应的sku页面
+        // location.href = "/shop/product/" + skuId + ".html";
     }
-
 </script>
 
 </html>

@@ -6,10 +6,9 @@ import com.xiaoma.pojo.SkuInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -19,7 +18,7 @@ public class ProductDetailController {
     ProductClient productClient;
 
     @GetMapping("/{skuInfoId}.html")
-    public String detail(@PathVariable Integer skuInfoId, Model model) {
+    public String detail(@PathVariable Integer skuInfoId, Model model, HttpServletRequest request) {
         // 1.查询出当前sku信息
         SkuInfo skuInfo = productClient.findBySkuInfoId(skuInfoId);
         model.addAttribute("skuInfo", skuInfo);
@@ -32,10 +31,16 @@ public class ProductDetailController {
             List<ProductSaleAttr> productSaleAttrList = productClient.productSaleAttrsAndCheck(skuInfo.getProductId().intValue(), skuInfoId);
             model.addAttribute("productSaleAttrList", productSaleAttrList);
         }
-
+        model.addAttribute("username",request.getHeader("username"));
+        model.addAttribute("returnURL", "http://localhost:8081" + request.getRequestURI());
         return "productDetail";
     }
 
+    @PostMapping("/getSkuIdByValueIds")
+    @ResponseBody
+    public String getSkuIdByValueIds(String valueIds) {
+        return productClient.getSkuIdByValueIds(valueIds);
+    }
 
 }
 

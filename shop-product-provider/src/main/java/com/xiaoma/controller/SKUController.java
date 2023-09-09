@@ -35,4 +35,10 @@ public class SKUController {
     public List<SkuInfo> findAll(Long catalog3Id){
         return skuService.findAll(catalog3Id);
     }
+
+    @PostMapping("/getSkuIdByValueIds")
+    @ResponseBody
+    public String getSkuIdByValueIds(String saleAttrValueIds) {
+        return skuService.selectSkuIdByValueIds(saleAttrValueIds);
+    }
 }

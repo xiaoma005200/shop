@@ -190,11 +190,11 @@ public class SKUServiceImpl implements SKUService {
          * 328#332                     166
          */
         Map<String, Long> map = skuInfoList.stream().collect(Collectors.toMap(skuInfo ->
-                                skuInfo.getSkuSaleAttrValueList()
-                                        .stream()
-                                        .map(skuSaleAttrValue ->
-                                                skuSaleAttrValue.getSaleAttrValueId() + "")
-                                        .collect(Collectors.joining("#")),SkuInfo::getId));
+                skuInfo.getSkuSaleAttrValueList()
+                        .stream()
+                        .map(skuSaleAttrValue ->
+                                skuSaleAttrValue.getSaleAttrValueId() + "")
+                        .collect(Collectors.joining("#")),SkuInfo::getId));
         return map;
     }
 
@@ -213,5 +213,10 @@ public class SKUServiceImpl implements SKUService {
             skuInfo.setSkuAttrValueList(skuAttrValueList);
         });
         return skuInfoList;
+    }
+
+    @Override
+    public String selectSkuIdByValueIds(String saleAttrValueIds) {
+        return skuInfoCustomMapper.selectBySaleAttrValueIds(saleAttrValueIds);
     }
 }

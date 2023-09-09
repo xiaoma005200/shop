@@ -75,7 +75,7 @@ public class AuthController {
                 return "redirect:http://localhost:8081/shop/index";// 登录页面,登录成功默认重定向到首页
             }
         }else{// 用户名密码不正确,返回登录页
-            return "/login";
+            return "login";
         }
     }
 
@@ -88,7 +88,7 @@ public class AuthController {
         if (StringUtils.isNotBlank(returnURL)) {
             model.addAttribute("returnURL", URLEncoder.encode(returnURL,"UTF-8"));
         }
-        return "/login";
+        return "login";
     }
 
     /**
@@ -112,7 +112,7 @@ public class AuthController {
         return "/index";*/
 
         model.addAttribute("username",headers.get("username"));
-        return "/index";
+        return "index";
     }
 
 

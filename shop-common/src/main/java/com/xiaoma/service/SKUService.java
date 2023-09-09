@@ -38,4 +38,11 @@ public interface SKUService {
      */
     List<SkuInfo> findAll(Long catalog3Id);
 
+    /**
+     * 根据saleValueIds查询SkuId
+     * @param saleAttrValueIds
+     * @return
+     */
+    String selectSkuIdByValueIds(String saleAttrValueIds);
+
 }
