@@ -5,7 +5,8 @@
 微服务电商系统模拟京东商城的架构和实现，具备商城系统几乎所有的功能，用户可以访问商城，搜索商品，选择商品，加入购物车，查询订单，以及进行订单支付。
 
 # 系统架构
-![@1KLYA0%4Z%F1KTC4(XE6%3](https://github.com/xiaoma005200/shop/assets/102530019/21cbc3ff-8247-444c-b2c5-44da6c4aadf2)
+![GZTD@G@F8_J_{@3` X4$I3](https://github.com/xiaoma005200/shop/assets/102530019/785bbfa8-5fe5-4ddb-8209-e2e3932458d7)
+
 
 
 # 技术栈
