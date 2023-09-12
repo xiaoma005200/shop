@@ -49,11 +49,39 @@
 * shop-user-provider 用户登录模块
 
 # 项目展示
+* 登录页
+  ![M6U@6CE%L27%9F9IJBKQWIR](https://github.com/xiaoma005200/shop/assets/102530019/a0ae75c2-e3af-4d28-9ad3-8d92a1855f9f)
 
+* 系统主页
+  ![2~7~RS~B O}V%MHE$(JZ`8X](https://github.com/xiaoma005200/shop/assets/102530019/c3406e86-9c0d-4fd4-acd5-fccf0c7c7a67)
 
+* 商品详情页
+  ![H_N_LBXRAEEP%`K3@LENOHJ](https://github.com/xiaoma005200/shop/assets/102530019/b184a319-9f3a-47c0-946e-1f3feb556990)
+  ![35XDDOMQ80 8HZ27@7$%~~X](https://github.com/xiaoma005200/shop/assets/102530019/8a0a100d-2db5-437f-bc81-dc52d7702aad)
 
+* 成功添加购物车页
+  ![ACVB%E2$MQH1_XW)CYDPNF2](https://github.com/xiaoma005200/shop/assets/102530019/26152145-7499-45f6-ad65-ce670d44e12b)
 
+* 购物车主页
+  ![(JZA`~47A@I% K%63 MGYPC](https://github.com/xiaoma005200/shop/assets/102530019/88f8ef2a-aa19-4b48-8e53-7f664bb1efdd)
 
+* 后台登录页
+  ![E`6R$ GD 4@ 60CU)1 J2KQ](https://github.com/xiaoma005200/shop/assets/102530019/c3c0bc24-7bef-449e-a37c-794655899ba9)
+
+* 商品属性管理页
+  ![KNPC{OY3X3{_}P{GJM0@VET](https://github.com/xiaoma005200/shop/assets/102530019/5e46bee7-e159-4d4b-ad2c-14c6ee19bd17)
+
+* 商品属性修改页
+  ![I7_E86{M8K 3A2`GK LN V](https://github.com/xiaoma005200/shop/assets/102530019/7f6c6c53-23f3-4558-a2c3-5d954dfbc51f)
+
+* 商品spu管理页
+  ![3 AYAT8%8GPQDC4B$BSZKYK](https://github.com/xiaoma005200/shop/assets/102530019/0b332cc2-ce14-4899-b124-66ee86050853)
+
+* 添加商品spu页
+  ![R{3Y{{VAIAXO%6LE1 @BA8V](https://github.com/xiaoma005200/shop/assets/102530019/8f6648dc-ea26-4dac-aaa0-08d73b748514)
+
+* 添加商品sku页
+  ![`SE~@9A}K4_Q)V2}2TBO7T4](https://github.com/xiaoma005200/shop/assets/102530019/f9fb8324-346d-4fa2-b73d-dc79ae2f84a8)
 
 
 
