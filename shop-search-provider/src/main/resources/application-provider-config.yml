@@ -4,7 +4,7 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://175.178.16.179:3306/shop?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
       username: root
-      password: 123456
+      password: hellomysql6B
   redis:
     host: 175.178.16.179
     password: 123456
@@ -26,6 +26,6 @@ eureka:
     register-with-eureka: true
     service-url:
       defaultZone: http://175.178.16.179:8000/eureka # 注册中心地址
-  instance:
-    ip-address: 175.178.16.179
-    prefer-ip-address: true
+#  instance:
+#    ip-address: 175.178.16.179
+#    prefer-ip-address: true

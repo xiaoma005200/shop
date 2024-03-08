@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import org.apache.lucene.util.CollectionUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Data
 @Service
+@Accessors(chain = true)
 public class ProductCartServiceImpl implements ProductCartService {
     @Autowired
     ProductClient productClient;
@@ -125,8 +127,10 @@ public class ProductCartServiceImpl implements ProductCartService {
 
     @Override
     public void checkCartItem(UserInfo userInfo, Long skuId, Integer check) {
+        // 1.获取对应用户的cartKey
         String cartKey = userInfo.getUserId() != null ? "cart:" + userInfo.getUserId() : "cart:" + userInfo.getUserKey();
 
+        // 2.根据cartKey+skuId取出对应的购物项
         CartItem cartItem = getCartItemBySkuId(cartKey, skuId + "");
 
         //3.设置购物项选中状态
@@ -159,8 +163,7 @@ public class ProductCartServiceImpl implements ProductCartService {
         redisUtils.lrem(cartKey+":sorted", skuId+ "");
     }
 
-
-    /*@Override
+    @Override
     public List<CartItem> getCheckedCartItems(UserInfo userInfo) {
         Cart userCart = getUserCart(userInfo);
         List<CartItem> cartItems = userCart.getCartItems().stream()
@@ -168,7 +171,7 @@ public class ProductCartServiceImpl implements ProductCartService {
                 .map(cartItem -> cartItem.setPrice(productClient.findPriceBySkuId(cartItem.getSkuId())))
                 .collect(Collectors.toList());
         return cartItems;
-    }*/
+    }
 
 
     /**

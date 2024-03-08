@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @FeignClient("shop-search-provider")
 public interface ShopSearchClient {
 
-    @GetMapping("/searchByParams")
+    @GetMapping("/shop/product/searchByParams")
     PageResult<SearchSkuInfo> searchByParams(@SpringQueryMap ShopSearchQuery shopSearchQuery);
 }

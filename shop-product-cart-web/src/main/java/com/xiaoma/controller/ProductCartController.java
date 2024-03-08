@@ -47,32 +47,31 @@ public class ProductCartController {
         return "index";
     }
 
-    @GetMapping("checkCartItem")
+    @GetMapping("/checkCartItem")
     public String checkCartItem(HttpServletRequest request,Long skuId,Integer check) {
         UserInfo userInfo = (UserInfo) request.getAttribute("userInfo");
         productCartService.checkCartItem(userInfo,skuId,check);
         return "redirect:http://localhost:8081/shop/cart/index";
     }
 
-    @GetMapping("changeNumber")
+    @GetMapping("/changeNumber")
     public String changeNumber(HttpServletRequest request,Long skuId,Integer number) {
         UserInfo userInfo = (UserInfo) request.getAttribute("userInfo");
         productCartService.changeCartItemNumber(userInfo,skuId,number);
         return "redirect:http://localhost:8081/shop/cart/index";
     }
 
-    @GetMapping("deleteCartItem")
+    @GetMapping("/deleteCartItem")
     public String changeNumber(HttpServletRequest request,Long skuId) {
         UserInfo userInfo = (UserInfo) request.getAttribute("userInfo");
         productCartService.deleteCartItemBySkuId(userInfo,skuId);
         return "redirect:http://localhost:8081/shop/cart/index";
     }
 
-
-    /*@PostMapping("getCheckedCartItems")
+    @PostMapping("/getCheckedCartItems")
     @ResponseBody
     public List<CartItem> getCheckedCartItems(@RequestBody UserInfo userInfo) {
         return productCartService.getCheckedCartItems(userInfo);
-    }*/
+    }
 
 }

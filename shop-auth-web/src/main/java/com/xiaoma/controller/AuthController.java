@@ -53,21 +53,15 @@ public class AuthController {
     public String auth(Member member, HttpServletRequest request, HttpServletResponse response,String returnURL) throws UnsupportedEncodingException {
         // 1.去数据库校验用户名密码
         Member loginMember = memberClient.findByUsernameAndPwd(member);
-        if (loginMember!=null) {
-            // 用户名密码正确
+        if (loginMember!=null) {// 用户名密码正确
             // 2.向浏览器写入一个包含token的cookie
-            //cookieUtils.setCookie(request,response,"token",loginMember.getId()+"",300,true);
             HashMap<String, Object> params = new HashMap<>();
             params.put("id",loginMember.getId());
             params.put("username",loginMember.getUsername());
             String jwtToken = jwtTokenUtils.generateJwtToken(UUID.randomUUID().toString(), "jwt_token", jwtSecretKey, params);
             cookieUtils.setCookie(request,response,"token",jwtToken,300,true);
-
             // 3.向redis写入一个token
-            //redisUtils.set("user:"+loginMember.getId()+":token",loginMember.getUsername(),300, TimeUnit.SECONDS);
             redisUtils.set("user:"+loginMember.getId()+":token",jwtToken,300, TimeUnit.SECONDS);
-
-
             // 如果有回调地址就重定向到回调地址,如果没有回调地址则重定向到首页
             if (StringUtils.isNotBlank(returnURL)) {
                 return "redirect:"+ URLDecoder.decode(returnURL,"UTF-8");
@@ -114,6 +108,5 @@ public class AuthController {
         model.addAttribute("username",headers.get("username"));
         return "index";
     }
-
 
 }

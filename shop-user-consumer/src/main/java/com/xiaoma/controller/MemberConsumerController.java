@@ -29,4 +29,9 @@ public class MemberConsumerController {
         return memberClient.findByUsername(username);
     }
 
+    @PostMapping("/findByUsernameAndPwd")
+    public Member findByUsernameAndPwd(@RequestBody Member member){
+        return memberClient.findByUsernameAndPwd(member);
+    }
+
 }

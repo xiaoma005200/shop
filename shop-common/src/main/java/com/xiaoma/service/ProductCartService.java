@@ -57,5 +57,5 @@ public interface ProductCartService {
      * @param userInfo
      * @return
      */
-    //List<CartItem> getCheckedCartItems(UserInfo userInfo);
+    List<CartItem> getCheckedCartItems(UserInfo userInfo);
 }

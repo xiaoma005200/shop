@@ -1,5 +1,6 @@
 package com.xiaoma.pojo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDetail {
+public class OrderDetail implements Serializable {
     private Long id;
 
     /**
@@ -101,4 +102,9 @@ public class OrderDetail {
     * 商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]
     */
     private String productAttr;
+
+    /*封装OrderDetail关联的skuInfo信息*/
+    private SkuInfo skuInfo;
+
+    private static final long serialVersionUID = 1L;
 }

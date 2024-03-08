@@ -1,0 +1,26 @@
+server:
+  port: 9008
+
+spring:
+  application:
+    name: shop-wxpay-web
+  thymeleaf:
+    cache: false
+  profiles:
+    active: consumer-config
+
+# 微信支付相关参数
+wxpay:
+  appId: # 微信服务号或者公众号唯一id
+  mchId: # 入驻商品平台后会有一个支付id
+  mchKey: # 商户平台密钥（API密钥32位随机数）
+  notify: http://i2qfu8.natappfree.cc/shop/wxPay/notify # 微信的异步通知地址
+
+# 微信支付前期准备
+# 1.入驻商户平台
+#         商户号mch_id
+#         API密钥
+#         绑定服务号appid
+# 2.服务号or公众号
+#         appId
+#         微信认证

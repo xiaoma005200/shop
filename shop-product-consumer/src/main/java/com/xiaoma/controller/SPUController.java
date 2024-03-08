@@ -18,21 +18,25 @@ public class SPUController {
     @Autowired
     ProductClient productClient;
 
-    @GetMapping("/productInfoList")
+    /*获取spu列表*/
+    @GetMapping("/spuList")
     public List<ProductInfo> productInfoList(Integer catalog3Id){
         return productClient.productInfoList(catalog3Id);
     }
 
+    /*商品默认图片*/
     @PostMapping("/fileUpload")
     public String fileUpload(MultipartFile file) {
         return productClient.fileUpload(file);
     }
 
-    @PostMapping("/saveProductInfo")
+    /*保存spu*/
+    @PostMapping("/saveSpuInfo")
     public void saveProductInfo(@RequestBody ProductInfo productInfo) {
         productClient.saveProductInfo(productInfo);
     }
 
+    /*获取spu图片列表*/
     @GetMapping("/spuImageList")
     public List<ProductImage> spuImageList(Integer spuId) {
         return productClient.spuImageList(spuId);

@@ -144,4 +144,5 @@ public class SearchSkuInfoServiceImpl implements SearchSkuInfoService {
 
         return pageResult;
     }
+
 }

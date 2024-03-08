@@ -1,6 +1,7 @@
 package com.xiaoma.feign;
 
 import com.xiaoma.pojo.Member;
+import com.xiaoma.pojo.MemberReceiveAddress;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,5 +21,11 @@ public interface MemberClient {
 
     @PostMapping("/shop/member/findByUsernameAndPwd")
     Member findByUsernameAndPwd(@RequestBody Member member);
+
+    @GetMapping("/shop/member/getReceiveAddressByMemberId")
+    List<MemberReceiveAddress> getReceiveAddressByMemberId(@RequestParam("memberId") Long memberId);
+
+    @GetMapping("/shop/member/getReceiveAddressByAddrId")
+    MemberReceiveAddress getReceiveAddressByAddrId(@RequestParam("addressId") Long addressId);
 
 }

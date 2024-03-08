@@ -1,7 +1,10 @@
 package com.xiaoma.pojo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class Order implements Serializable {
     /**
     * 订单id
     */
@@ -226,4 +229,11 @@ public class Order {
     * 修改时间
     */
     private Date modifyTime;
+
+    /**
+     * 一个订单对应多个订单详情
+     */
+    private List<OrderDetail> orderDetailList;
+
+    private static final long serialVersionUID = 1L;
 }

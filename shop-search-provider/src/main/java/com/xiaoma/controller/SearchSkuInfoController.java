@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-//@RequestMapping("/shop/product")
+@RequestMapping("/shop/product")
 public class SearchSkuInfoController {
 
     @Autowired

@@ -1,7 +1,9 @@
 package com.xiaoma.service.impl;
 
 import com.google.gson.Gson;
+import com.xiaoma.exception.LockStockException;
 import com.xiaoma.mapper.custom.SkuInfoCustomMapper;
+import com.xiaoma.mapper.custom.WareSkuCustomMapper;
 import com.xiaoma.mapper.generate.SkuAttrValueMapper;
 import com.xiaoma.mapper.generate.SkuImageMapper;
 import com.xiaoma.mapper.generate.SkuInfoMapper;
@@ -9,14 +11,15 @@ import com.xiaoma.mapper.generate.SkuSaleAttrValueMapper;
 import com.xiaoma.pojo.*;
 import com.xiaoma.service.SKUService;
 import com.xiaoma.util.RedisUtils;
+import com.xiaoma.vo.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.math.BigDecimal;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -42,6 +45,9 @@ public class SKUServiceImpl implements SKUService {
     @Autowired
     RedisUtils redisUtils;
 
+    @Autowired
+    WareSkuCustomMapper wareSkuCustomMapper;
+
     @Override
     public void saveSkuInfo(SkuInfo skuInfo) {
         //1.保存sku基本信息=>sku_info
@@ -64,7 +70,6 @@ public class SKUServiceImpl implements SKUService {
             skuSaleAttrValue.setSkuId(skuInfo.getId());
             skuSaleAttrValueMapper.insertSelective(skuSaleAttrValue);
         });
-
     }
 
     @Override
@@ -145,35 +150,6 @@ public class SKUServiceImpl implements SKUService {
         return skuInfo;
     }
 
-//    @Override
-//    @Cacheable(value = "skuInfo",key = "#skuInfoId + ':info'",cacheManager = "cacheManagerTTL")
-//    public SkuInfo findBySkuInfoId(Integer skuInfoId) {
-//
-//        // 1.查询Sku的基本信息==>sku_info表
-//        SkuInfo skuInfo = skuInfoMapper.selectByPrimaryKey(skuInfoId.longValue());
-//
-//        if (skuInfo!=null) {
-//            // 2.查询sku对应的图片列表==>sku_image表
-//            SkuImageExample skuImageExample = new SkuImageExample();
-//            skuImageExample.createCriteria().andSkuIdEqualTo(skuInfoId.longValue());
-//            List<SkuImage> skuImages = skuImageMapper.selectByExample(skuImageExample);
-//
-//            // 3.查询sku对应的销售信息==>sku_sale_attr_value
-//            SkuSaleAttrValueExample skuSaleAttrValueExample = new SkuSaleAttrValueExample();
-//            skuSaleAttrValueExample.createCriteria().andSkuIdEqualTo(skuInfoId.longValue());
-//            List<SkuSaleAttrValue> skuSaleAttrValueList = skuSaleAttrValueMapper.selectByExample(skuSaleAttrValueExample);
-//
-//            // 4.将skuImages设置到skuInfo中
-//            skuInfo.setSkuImageList(skuImages);
-//
-//            // 5.将skuSaleAttrValueList设置到skuInfo中
-//            skuInfo.setSkuSaleAttrValueList(skuSaleAttrValueList);
-//
-//        }
-//        return skuInfo;
-//    }
-
-
     @Override
     public Map<String, Long> findSkuSaleAttrValuesBySpuId(Long spuId) {
         // 1.查询出skuInfo和销售属性值信息
@@ -218,5 +194,64 @@ public class SKUServiceImpl implements SKUService {
     @Override
     public String selectSkuIdByValueIds(String saleAttrValueIds) {
         return skuInfoCustomMapper.selectBySaleAttrValueIds(saleAttrValueIds);
+    }
+
+    @Override
+    public BigDecimal findPriceBySkuId(Long skuId) {
+        SkuInfo skuInfo = skuInfoMapper.selectByPrimaryKey(skuId);
+        return new BigDecimal(skuInfo.getPrice()+"");
+    }
+
+    @Override
+    public Map<Long, Boolean> getSkuStock(List<Long> skuIds) {
+        return skuIds.stream().collect(Collectors.toMap(skuId -> skuId, skuId -> {
+            Long stockCount = wareSkuCustomMapper.getSkuStock(skuId);
+            return stockCount == null ? false : stockCount > 0;
+        }));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
+    public void orderLockStock(List<OrderItem> orderItemList) throws LockStockException {
+        /********保存锁定任务信息:锁定哪个订单*********/
+        /**
+         * 每个购物项都必须库存锁定,只有每个购物项都锁定成功,才算整个订单锁定成功,只要有一个购物项锁定失败,整体失败
+         * 每个购物项锁定库存的算法:
+         *   1.根据购物项的skuId获取其对应所有的仓库的库存信息
+         *   2.针对sku对应的每个仓库依次锁定
+         *     一旦有一个仓库锁定成功,这个sku就算锁定成功,退出
+         *     只有该sku对应的所有仓库全部锁定失败,才算这个sku锁定库存失败
+         *
+         *  128购买5件
+         *    128,1号仓库,10,6
+         *    128,6号仓库,20,12
+         *    128,5号仓库,30,15
+         *
+         *  129购买7件
+         *      129,2号仓库,20,17
+         *      129,3号仓库,30,26
+         *      129,7号仓库,40,38
+         */
+        for (OrderItem orderItem : orderItemList) {
+            //1.根据订单项(购物项)中的skuId获取其所有的库存信息
+            WareSkuExample wareSkuExample = new WareSkuExample();
+            wareSkuExample.createCriteria().andSkuIdEqualTo(orderItem.getSkuId());
+            List<WareSku> wareSkuList = wareSkuCustomMapper.selectByExample(wareSkuExample);
+
+            //2.实现每个购物项锁定库存的算法
+            Optional<WareSku> firstWareSku = wareSkuList.stream()
+                    .filter(wareSku -> wareSku.getStockLocked() + orderItem.getNumber() <= wareSku.getStock())
+                    .findFirst();//获取流中的第一个元素,相当于取出第一个可锁定库存的仓库
+
+            if (firstWareSku.isPresent()) {//说明skuId对应的仓库有可以锁定成功的
+                //锁定该仓库的库存
+                WareSku wareSku = firstWareSku.get();
+                wareSku.setStockLocked(wareSku.getStockLocked() + orderItem.getNumber());
+                wareSkuCustomMapper.updateByPrimaryKeySelective(wareSku);
+            } else {//说明流中无元素,所有的仓库均锁定失败
+                throw new LockStockException("skuId:" + orderItem.getSkuId() + "锁定失败");
+            }
+        }
+
     }
 }

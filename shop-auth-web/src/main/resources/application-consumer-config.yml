@@ -4,13 +4,21 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://175.178.16.179:3306/shop?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
       username: root
-      password: 123456
+      password: hellomysql6B
   redis:
     host: 175.178.16.179
     password: 123456
   elasticsearch:
     rest:
       uris: http://192.168.204.99:9200 # ElasticSearch地址
+
+mybatis:
+  type-aliases-package: com.xiaoma.pojo # 别名com.xiaoma.pojo.Xyz===>Xyz
+  mapper-locations: classpath:com.xiaoma/mapper/**/*.xml # mapper.xml文件位置
+
+logging:
+  level:
+    com.xiaoma.mapper: debug # 查看sql输出
 
 eureka:
   client:
@@ -21,6 +29,10 @@ eureka:
   instance:
     ip-address: 175.178.16.179
     prefer-ip-address: true
+#    lease-expiration-duration-in-seconds: 2
+#    lease-renewal-interval-in-seconds: 2
+#    prefer-ip-address: true
+#    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
 
 # hystrix的超时时间
 hystrix:
@@ -33,7 +45,7 @@ hystrix:
           thread:
             timeoutInMilliseconds: 50000
 
-  # ribbon的超时时间
+# ribbon的超时时间
 ribbon:
-  ReadTimeout: 500000
-  ConnectTimeout: 500000
+  ReadTimeout: 50000
+  ConnectTimeout: 50000

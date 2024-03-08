@@ -90,6 +90,12 @@
             <version>4.13</version>
             <scope>test</scope>
         </dependency>
+        <!--支付宝sdk-->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>4.10.192.ALL</version>
+        </dependency>
     </dependencies>
 
     <build>

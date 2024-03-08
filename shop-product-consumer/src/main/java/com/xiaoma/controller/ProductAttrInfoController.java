@@ -16,6 +16,7 @@ public class ProductAttrInfoController {
     @Autowired
     ProductClient productClient;
 
+    /*根据catalog3Id获取商品对应的基本属性*/
     @GetMapping("/attrInfoList")
     public List<BaseAttrInfo> getAttrByCatalog3Id(Integer catalog3Id){
         return productClient.getAttrByCatalog3Id(catalog3Id);
@@ -27,6 +28,7 @@ public class ProductAttrInfoController {
         return "success";
     }
 
+    /*根据attrId获取对应的属性值列表*/
     @PostMapping("/getAttrValueList")
     public List<BaseAttrValue> getAttrValueList(Integer attrId){
         return productClient.getAttrValueList(attrId);

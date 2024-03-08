@@ -48,7 +48,6 @@ public class ProductAttrInfoServiceImpl implements ProductAttrInfoService {
      */
     @Override
     public void saveAttrInfo(BaseAttrInfo baseAttrInfo) {
-
         if(!StringUtils.isEmpty(baseAttrInfo.getId()+"")){
             // 删除属性名
             baseAttrInfoMapper.deleteByPrimaryKey(baseAttrInfo.getId());
@@ -57,10 +56,8 @@ public class ProductAttrInfoServiceImpl implements ProductAttrInfoService {
                 baseAttrValueMapper.deleteByPrimaryKey(baseAttrValue.getId());
             });
         }
-
         // 1.将属性相关的信息保存到base_attr_info表中
         baseAttrInfoMapper.insertSelective(baseAttrInfo);
-
         // 2.将属性对应的所有属性值保存到base_attr_value中
         /*for (BaseAttrValue baseAttrValue : baseAttrInfo.getAttrValueList()) {
             baseAttrValue.setAttrId(baseAttrInfo.getId());

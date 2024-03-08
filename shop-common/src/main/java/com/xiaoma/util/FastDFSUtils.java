@@ -27,16 +27,18 @@ public class FastDFSUtils {
         try {
             // 1.获取原始文件名称===>abc.jpg
             String originalFilename = multipartFile.getOriginalFilename();
-
             // 2.获取文件后缀名
             String suffix = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
-
             // 3.利用FastDFS的api上传文件
             String[] paths = storageClient.upload_file(multipartFile.getBytes(), suffix, nameValuePairs);
-
             // 4.上传成功返回文件路径
+            System.out.println("===============");
+            System.out.println("===============");
+            System.out.println("===============");
+            System.out.println("===============");
+            System.out.println("===============");
+            System.out.println(paths[0]+"/"+paths[1]);
             return paths[0]+"/"+paths[1];
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (MyException e) {

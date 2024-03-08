@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/pay/css/style.css">
+    <script src="/pay/js/easy.qrcode.min.js"></script>
+    <script src="/pay/js/jquery-3.1.1.min.js" charset="utf-8"></script>
+
+    <script>
+        $(function () {
+            // Options
+            var options = {
+                text: "[[${wxPayVO.codeUrl}]]",
+                width: 240,
+                height: 240
+            };
+            // Create QRCode Object
+            new QRCode(document.getElementById("qrcode"), options);
+
+            //2秒轮询一次订单状态
+            var clearId=setInterval(function () {
+               $.ajax({
+                   type:"POST",
+                   url:"/shop/wxPay/check/order",
+                   data:"orderSn=[[${wxPayVO.orderSn}]]",
+                   dataType:"json",
+                   success: function (wxPayVO) {
+                       console.log(wxPayVO.orderStatus);
+                      //从wxPayVO这个json对象中获取到订单状态
+                      //如果订单的状态是已支付的话,控制页面重定向到订单列表,同时清除定时器
+                       if (wxPayVO.orderStatus == 1001) {
+                           clearInterval(clearId);
+                           window.location.href = "http://localhost:8081/shop/order/index";
+                       }
+                   }
+               });
+            },2000);
+        });
+    </script>
+
+</head>
+<body>
+<div class="One_Jdbox">
+    <div class="Jdbox_head">
+        <img src="/pay/img/logo1.jpg" alt="" width="100px" height="65px"><span class="bank">收银台</span>
+        <ul>
+            <li><span>[[${userInfo?.username}]]</span><span>退出</span></li>
+            <li>我的订单</li>
+            <li>支付帮助</li>
+        </ul>
+    </div>
+    <div class="Jdbox_BuySuc">
+        <dl>
+            <dd>
+                <span th:text="'订单提交成功，请尽快付款！订单号: '+ ${wxPayVO?.orderSn}">订单提交成功，请尽快付款！订单号：70715901829</span>
+                <span>应付金额<font th:text="${#numbers.formatDecimal(wxPayVO?.payAmount,1,2)}">28.90</font>元</span>
+            </dd>
+            <dd>
+                <span>推荐使用</span>
+                <span>微信扫码支付请您在<font>24小时</font>内完成支付，否则订单会被自动取消(库存紧订单请参见详情页时限)</span>
+                <span>订单详细</span>
+            </dd>
+        </dl>
+    </div>
+    <div class="Jd_Con">
+        <div style="color:gray;font-size:20px;padding-top: 15px;padding-left: 30px">微信支付</div>
+        <div style="margin-left: 220px;">
+            <div style="float: left;margin-top: 30px;margin-right: 20px">
+                <div style="border: 1px solid #dddddd;padding: 37px;margin-bottom: 10px" id="qrcode"></div>
+               <img src="/pay/img/提示信息.bmp" width="300px" height="60px">
+            </div>
+            <div>
+              <img src="/pay/img/扫一扫提示.jpg" width="379px" height="400px">
+            </div>
+        </div>
+    </div>
+    <div class="Jd_foots">
+        <p>
+            <span>Copyright @2004-2017 比屋教育 版权所有</span>
+        </p>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+  
+    //头部订单成功 订单详细鼠标移入效果
+    $(".Jdbox_BuySuc dl dd:last-child span:last-child").mouseover(function(){
+        $(this).css({"cursor":"pointer","color":"#E31613"})
+    }).mouseout(function(){
+        $(this).css("color","#7EA4FF")
+    })
+    //分期付款鼠标移入hover效果
+    $(".Jd_Fenqi>ol li:not(:first-child)").mouseover(function(){
+        $(this).css({"cursor":"pointer","border":"1px solid #E31613"})
+    }).mouseout(function(){
+        $(this).css("border","1px solid #C9DFFF")
+    })
+    //支付方式按钮选择hover效果
+    $(".Jd_main ul li:nth-child(3) button").mouseover(function(){
+        $(this).css({"cursor":"pointer","color":"#E31613"})
+    }).mouseout(function(){
+        $(this).css("color","#67A4FF")
+    })
+    //忘记密码鼠标移入效果
+    $(".Jd_main ul li:nth-child(4) span").mouseover(function(){
+        $(this).css({"cursor":"pointer","color":"#E31613"})
+    }).mouseout(function(){
+        $(this).css("color","#67A4FF")
+    })
+    //立即支付按钮效果
+    $(".Jd_main ul li:nth-child(5) button").mouseover(function(){
+        $(this).css({"cursor":"pointer","background":"#FF5350"})
+    }).mouseout(function(){
+        $(this).css("background","#FC6E6C")
+    })
+
+    $(".Jd_footer ul li").mouseover(function(){
+        $(this).css({"cursor":"pointer","color":"#E31613"})
+    }).mouseout(function(){
+        $(this).css("color","#5E5E5E")
+    })
+
+    $(".Jdbox_head>ul li span").mouseover(function(){
+        $(this).css({"cursor":"pointer","color":"#E31613"})
+    }).mouseout(function(){
+        $(this).css("color","#666666")
+    })
+    $(".Jdbox_head>ul li:not(:first-child)").mouseover(function(){
+        $(this).css({"cursor":"pointer","color":"#E31613"})
+    }).mouseout(function(){
+        $(this).css("color","#666666")
+    })
+
+
+    $(".Jd_Fenqi ul li:first-child").mouseover(function(){
+        $(this).css({"cursor":"pointer","color":"#666666"})
+    }).mouseout(function(){
+        $(this).css({"color":"black"})
+    })
+</script>
+</html>

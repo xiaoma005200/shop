@@ -1,18 +1,21 @@
 package com.xiaoma.controller;
 
+import com.xiaoma.constant.OrderStatusEnum;
+import com.xiaoma.exception.LockStockException;
+import com.xiaoma.pojo.Order;
+import com.xiaoma.service.ProductOrderService;
 import com.xiaoma.util.CookieUtils;
 import com.xiaoma.util.RedisUtils;
-import org.apache.commons.lang.StringUtils;
+import com.xiaoma.util.ResultUtils;
+import com.xiaoma.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -25,13 +28,39 @@ public class ProductOrderController {
     @Autowired
     RedisUtils redisUtils;
 
+    @Autowired
+    ProductOrderService productOrderService;
+
+    /**
+     * 结算页面
+     * @return
+     */
     @GetMapping("/trade")
-    public String trade(){
+    public String trade(HttpServletRequest request,Model model){
+        /*String userId = request.getHeader("userId");
+        String username = request.getHeader("username");
+        String userKey = cookieUtils.getCookieValue(request, "user-key", true);
+        UserInfo userInfo = new UserInfo(userId, username, userKey);*/
+        UserInfo userInfo = (UserInfo) request.getAttribute("userInfo");
+
+        OrderTrade orderTrade = productOrderService.getOrderTradeData(userInfo);
+
+        model.addAttribute("userInfo",userInfo);
+        model.addAttribute("orderTrade",orderTrade);
         return  "trade";
     }
 
+    /**
+     * 支付页面
+     * @return
+     */
     @GetMapping("/pay")
-    public String pay(){
+    public String pay(HttpServletRequest request,Model model,String orderSn){
+        UserInfo userInfo = (UserInfo) request.getAttribute("userInfo");
+        PayVO payVO = productOrderService.getPayInfoByOrderSn(orderSn);
+
+        model.addAttribute("userInfo",userInfo);
+        model.addAttribute("payVO",payVO);
         return  "pay";
     }
 
@@ -44,23 +73,33 @@ public class ProductOrderController {
      */
     @GetMapping("/index")
     public String index(@RequestHeader Map<String,String> headers, HttpServletRequest request, Model model) throws UnsupportedEncodingException {
-        /*// 1.从cookie中取得token
-        String userId = cookieUtils.getCookieValue(request, "token", true);
+        UserInfo userInfo = (UserInfo) request.getAttribute("userInfo");
+        List<Order> orderList = productOrderService.getOrderListByUser(userInfo);
+        model.addAttribute("orderList", orderList);
+        return "index";
+    }
 
-        // 2.根据token中的保存的userId判断
-        if (StringUtils.isNotBlank(userId)) {
-            // 3.根据userId去redis中获取token
-            Object value = redisUtils.get("user:" + userId + ":token");
-            if (value!=null) {
-                // 说明用户已经登录,将用户信息添加到model域中
-                model.addAttribute("username",value);
-                return "/index"; // 已登录,前往订单页面
-            }
+    @PostMapping("/submitOrder")
+    @ResponseBody
+    public ResponseData<Order> submitOrder(OrderVO orderVO, HttpServletRequest request){
+        UserInfo userInfo = (UserInfo) request.getAttribute("userInfo");
+        try {
+            return productOrderService.submitOrder(orderVO,userInfo);
+        } catch (LockStockException e) {
+            e.printStackTrace();
+            return ResultUtils.result(OrderStatusEnum.LOCKED_STOCK_FAIL,null);
         }
-        // 重定向到登录页面(未登录/redis缓存过期)同时使用returnURL记录一个回调地址,实现登录后跳转
-        return "redirect:http://localhost:9004/shop/login?returnURL=" + URLEncoder.encode(request.getRequestURL().toString(),"UTF-8");*/
+    }
 
-        model.addAttribute("username",headers.get("username"));
-        return "/index"; // 找网关
+    @GetMapping("/getPayInfoByOrderSn")
+    @ResponseBody /*返回json数据*/
+    public PayVO getPayInfoByOrderSn(String orderSn){
+        return productOrderService.getPayInfoByOrderSn(orderSn);
+    }
+
+    @GetMapping("/updateOrderStatus")
+    @ResponseBody
+    public void updateOrderStatus(String orderSn,Integer code){
+        productOrderService.updateOrderStatus(orderSn,code);
     }
 }

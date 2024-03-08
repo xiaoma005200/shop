@@ -1,6 +1,7 @@
 package com.xiaoma.service;
 
 import com.xiaoma.pojo.Member;
+import com.xiaoma.pojo.MemberReceiveAddress;
 
 import java.util.List;
 
@@ -35,4 +36,18 @@ public interface MemberService {
      * @return member对象
      */
     Member findByUsernameAndPwd(Member member);
+
+    /**
+     * 根据memberId获取用户收货地址
+     * @param memberId
+     * @return
+     */
+    List<MemberReceiveAddress> getReceiveAddressByMemberId(Long memberId);
+
+    /**
+     * 根据addressId获取收货地址信息
+     * @param addressId
+     * @return
+     */
+    MemberReceiveAddress getReceiveAddressByAddrId(Long addressId);
 }

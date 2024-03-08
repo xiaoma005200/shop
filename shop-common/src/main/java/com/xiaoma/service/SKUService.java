@@ -1,8 +1,11 @@
 package com.xiaoma.service;
 
+import com.xiaoma.exception.LockStockException;
 import com.xiaoma.pojo.SkuInfo;
+import com.xiaoma.vo.OrderItem;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -44,5 +47,27 @@ public interface SKUService {
      * @return
      */
     String selectSkuIdByValueIds(String saleAttrValueIds);
+
+    /***
+     * 根据skuId查询价格
+     * @param skuId
+     * @return
+     */
+    BigDecimal findPriceBySkuId(Long skuId);
+
+    /**
+     * 根据skuIds获取每个sku库存状态
+     * 128=true  128号商品有库存
+     * 132=false 132号商品没有库存
+     * @param skuIds
+     * @return
+     */
+    Map<Long,Boolean> getSkuStock(List<Long> skuIds);
+
+    /**
+     * 每个购物项都要去锁定库存
+     * @param orderItemList
+     */
+    void orderLockStock(List<OrderItem> orderItemList) throws LockStockException;
 
 }
