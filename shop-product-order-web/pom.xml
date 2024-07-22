@@ -12,6 +12,26 @@
     <name>shop-product-order-web</name>
     <description>shop-product-order-web</description>
 
+<!--    <dependencies>-->
+<!--        &lt;!&ndash;seata&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-alibaba-seata</artifactId>-->
+<!--            <version>2.1.0.RELEASE</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>seata-all</artifactId>-->
+<!--                    <groupId>io.seata</groupId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>io.seata</groupId>-->
+<!--            <artifactId>seata-all</artifactId>-->
+<!--            <version>1.4.0</version>-->
+<!--        </dependency>-->
+<!--    </dependencies>-->
+
     <build>
         <plugins>
             <plugin>
